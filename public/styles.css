@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+.container-data-1 {
+    width: 100%;
+    /* height: 120px; */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #ddd;
+    justify-content: space-around;
+    align-items: center;
+}
+.container-data-1 div {
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+    background-color: red;
+    display: flex;
+    flex-wrap: wrap;
+}

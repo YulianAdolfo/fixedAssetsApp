@@ -1,22 +1,45 @@
-body {
-    margin: 0;
-    padding: 0;
+
+.main-container-app {
+    width: 95%;
+    height: 200px;
+    margin: 0 auto;
 }
-.container-data-1 {
+.data-container-1 {
     width: 100%;
-    /* height: 120px; */
+    height: auto;
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    background-color: #ddd;
-    justify-content: space-around;
     align-items: center;
+    justify-content: center;
 }
-.container-data-1 div {
-    width: 200px;
-    height: 50px;
-    margin: 10px;
-    background-color: red;
-    display: flex;
-    flex-wrap: wrap;
+.data-container-1 div {
+    width: 610px;
+    height: 40px;
+    margin: 5px;
+}
+.data-container-1 input {
+    float: right;
+    width: 80%;
+    height: 22px;
+    margin-right: 10px;
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+}
+.data-container-1 span {
+    margin-left: 10px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.input-disable {
+    background-color: white;
+}
+.add-accessories {
+    text-decoration: underline;
+    font-style: italic;
+    cursor: pointer;
+    padding-top: 10px;
 }

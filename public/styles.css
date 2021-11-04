@@ -1,4 +1,6 @@
-
+body {
+    margin: 0;
+}
 .main-container-app {
     width: 95%;
     height: auto;
@@ -74,5 +76,83 @@
     margin-top: 20px;
     padding: 5px;
     font-style: 15px;
+    cursor: pointer;
+}
+/* panel modal window*/
+.panel-window {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+.container-add-items {
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 25px;
+}
+.container-add-items header {
+    width: 98%;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container-add-items header input {
+    width: 40%;
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 15px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+}
+.container-add-items header button {
+    width: 15%;
+    height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.container-table {
+    width: 98%;
+    height: 90%;
+    display: block;
+    margin: 0 auto;
+    overflow-y: scroll;
+}
+.table-style-items {
+    width: 98%;
+    border: 1px solid #dddddd;
+    border-collapse: collapse;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+.table-style-items th, tr, td{
+    border: 1px solid #dddddd;
+    text-align: center;
+}
+.table-style-items th {
+    padding: 2px;
+}
+.button-div-close {
+    width: 100%;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button-div-close button {
+    width: 50%;
+    height: 30px;
     cursor: pointer;
 }

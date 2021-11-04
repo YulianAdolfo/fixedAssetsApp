@@ -1,10 +1,12 @@
 
 .main-container-app {
     width: 95%;
-    height: 200px;
+    height: auto;
     margin: 0 auto;
+    display: block;
+    margin-bottom: 10px;
 }
-.data-container-1 , .data-container-2{
+.data-container-1 , .data-container-2, .data-container-3, .data-container-4{
     width: 100%;
     height: auto;
     position: relative;
@@ -13,12 +15,12 @@
     align-items: center;
     justify-content: center;
 }
-.data-container-1 div, .data-container-2 div {
+.data-container-1 div, .data-container-2 div, .data-container-3 div, .data-container-4 div{
     width: 610px;
     height: 40px;
     margin: 5px;
 }
-.data-container-1 input, .data-container-2 select {
+.data-container-1 input, .data-container-2 select, .data-container-3 select, .data-container-4 select {
     float: right;
     width: 80%;
     height: 22px;
@@ -29,7 +31,7 @@
     border-bottom: 1px solid #ddd;
     font-size: 16px;
 }
-.data-container-1 span, .data-container-2 span {
+.data-container-1 span, .data-container-2 span, .data-container-3 span, .data-container-4 span {
     margin-left: 10px;
     margin-top: 10px;
     display: inline-block;
@@ -48,6 +50,29 @@
     text-align: center;
     background-color:#ddd;
 }
-.data-container-2 select {
+.data-container-2 select, .data-container-3 select, .data-container-4 select {
+    cursor: pointer;
+}
+.data-container-4 select {
+    width: 90%;
+    text-align: center;
+}
+.data-container-4 span {
+    margin-right: 10px;
+}
+.data-container-5 textarea {
+    width: 95%;
+    display: block;
+    margin:  0 auto;
+    outline: none;
+    margin-top: 20px;
+}
+.main-container-app button {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 5px;
+    font-style: 15px;
     cursor: pointer;
 }

@@ -1,11 +1,73 @@
 let addItems = document.getElementById("add-accessories")
 let sendRequestButton = document.getElementById("button-send-request")
+let selectCampusAssetEmit = document.getElementById("select-campus-asset")
+let selectPlaceAssetEmit = document.getElementById("select-area-campus-asset")
+let selectCampusRecep = document.getElementById("select-campus-asset-r")
+let selectAreaRecep = document.getElementById("select-area-campus-asset-r")
+let selectReasonChange = document.getElementById("select-reason-asset")
+
 let addedItemsList = []
 let panel = null
 let modal = null
 const ADDRESS_SERVER = "http://localhost:5200/"
 addItems.onclick = () => {
     modal.style.display = "block"
+}
+selectCampusAssetEmit.onchange = (e) => {
+    dataFromAreasCampus(e.target.value, selectPlaceAssetEmit)
+}
+selectCampusRecep.onchange = (e) => {
+    dataFromAreasCampus(e.target.value, selectAreaRecep)   
+}
+async function dataFromAreasCampus(campus, selectElement) {
+    console.log(campus)
+    switch(campus) {
+        case "0":
+            removeItemsList(selectElement)
+            break;
+        case "1":
+            var content = await getAreas("main-areas")
+            removeItemsList(selectElement)
+            appendItemsToList(selectElement, content)
+            break;
+        case "2":
+            var content = await getAreas("specialists-areas")
+            removeItemsList(selectElement)
+            appendItemsToList(selectElement, content)
+            break;
+        case "3s":
+            var content = await getAreas("reason-change")
+            appendReasons(content, selectReasonChange)
+            break;
+    }
+    function getAreas(URL) {
+        // requesting the areas dependig of campus
+        return new Promise((resolve, reject)=>{
+            fetch(ADDRESS_SERVER + URL, {
+                method:"GET",
+                headers: {
+                    'content-type':'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch((error) => reject(error))
+        })
+    }
+
+}
+function appendItemsToList(selectElement, dataInJson, d) {
+    for(var i =0; i < dataInJson.length; i++) {
+        var data = JSON.parse(dataInJson[i])
+        var opt = document.createElement("option")
+        opt.innerHTML = data.PLACE
+        selectElement.appendChild(opt)
+    }
+}
+function removeItemsList(selectElement) {
+    while(selectElement.children.length > 1) {
+        selectElement.removeChild(selectElement.lastChild)
+    }
 }
 function create_modal_form(windowDiv) {
     var container = document.createElement("div")
@@ -99,6 +161,7 @@ function panel_window() {
     return panel
 }
 function data_for_request() {
+    let prepareDataToSend = null
     // getting the first data container
     var assetName = document.getElementById("asset-box").value
     var brand = document.getElementById("brand-box").value
@@ -126,26 +189,45 @@ function data_for_request() {
     if (assetName != "" && brand != "" && model != "" && serial != "" && emitionCampus != "Seleccione una opción" &&
         emitionPlace != "Seleccione una opción" && receptionCampus != "Seleccione una opción" &&
         receptionPlace != "Seleccione una opción" && reason != "Seleccione una opción" && descriptionWhy != "") {
-            
-    }
-
+            var toJsonData = {
+                "AssetName": assetName,
+                "Brand": brand,
+                "Model": modal,
+                "Serial": serial,
+                "OtherItems": JSON.stringify(otherItemsAdded),
+                "EmCampus": emitionCampus,
+                "EmPlace": emitionPlace,
+                "ReCampus": receptionCampus,
+                "RePlace": receptionPlace,
+                "Reason": reason,
+                "Description": descriptionWhy
+            }
+            prepareDataToSend = JSON.stringify(toJsonData)
+        }else {
+            prepareDataToSend = null
+        }
+        return prepareDataToSend
 }
 sendRequestButton.onclick = (e) => {
     e.preventDefault()
-    //data_for_request()
-    async function sendingData() {
-        var stateRequest = await sendRequestToServer()
-        console.log("mensaje !: ", stateRequest)
-        console.log(stateRequest.State)
+    let dataAsset = data_for_request()
+    if (dataAsset != null) {
+        sendingData(dataAsset)
+    }else {
+        console.log("Faltan datos")
     }
-    function sendRequestToServer() {
+    async function sendingData(contentRequest) {
+        var stateRequest = await sendRequestToServer(contentRequest)
+        console.log("mensaje !: ", stateRequest)
+    }
+    function sendRequestToServer(contentRequest) {
         var stateRequest = new Promise((resolve, reject) => {
             fetch(ADDRESS_SERVER + "new-request-asset", {
                 method:"POST",
                 header: {
                     'content-type': 'application/json'
                 },
-                body: JSON.stringify({"message":"using fetch"})
+                body: contentRequest
             })
             .then(response => response.json())
             .then(data => resolve(data))
@@ -153,7 +235,18 @@ sendRequestButton.onclick = (e) => {
         })
         return stateRequest
     }
-    sendingData()
+}
+function getReasons() {
+    dataFromAreasCampus("3s", selectReasonChange)   
+}
+function appendReasons(dataInJson, selectElement) {
+    for(var i =0; i < dataInJson.length; i++) {
+        var data = JSON.parse(dataInJson[i])
+        var opt = document.createElement("option")
+        opt.innerHTML = data.Reason_change
+        selectElement.appendChild(opt)
+    }
 }
 // it creates the modal just one time
 modal = create_modal_form(panel_window())
+getReasons()

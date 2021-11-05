@@ -3,6 +3,7 @@ let sendRequestButton = document.getElementById("button-send-request")
 let addedItemsList = []
 let panel = null
 let modal = null
+const ADDRESS_SERVER = "http://localhost:5200/"
 addItems.onclick = () => {
     modal.style.display = "block"
 }
@@ -131,7 +132,28 @@ function data_for_request() {
 }
 sendRequestButton.onclick = (e) => {
     e.preventDefault()
-    data_for_request()
+    //data_for_request()
+    async function sendingData() {
+        var stateRequest = await sendRequestToServer()
+        console.log("mensaje !: ", stateRequest)
+        console.log(stateRequest.State)
+    }
+    function sendRequestToServer() {
+        var stateRequest = new Promise((resolve, reject) => {
+            fetch(ADDRESS_SERVER + "new-request-asset", {
+                method:"POST",
+                header: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({"message":"using fetch"})
+            })
+            .then(response => response.json())
+            .then(data => resolve(data))
+            .catch((error)=> {reject(error)})
+        })
+        return stateRequest
+    }
+    sendingData()
 }
 // it creates the modal just one time
 modal = create_modal_form(panel_window())

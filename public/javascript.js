@@ -167,7 +167,7 @@ function data_for_request() {
     var brand = document.getElementById("brand-box").value
     var model = document.getElementById("model-box").value
     var serial = document.getElementById("serial-box").value
-    var otherItemsAdded = addedItemsList
+    var otherItemsAdded = JSON.stringify(addedItemsList)
 
     // getting the emition campus and place
     var emitionCampus = document.getElementById("select-campus-asset")
@@ -190,11 +190,12 @@ function data_for_request() {
         emitionPlace != "Seleccione una opción" && receptionCampus != "Seleccione una opción" &&
         receptionPlace != "Seleccione una opción" && reason != "Seleccione una opción" && descriptionWhy != "") {
             var toJsonData = {
+                "User": "1Yulian",
                 "AssetName": assetName,
                 "Brand": brand,
                 "Model": modal,
                 "Serial": serial,
-                "OtherItems": JSON.stringify(otherItemsAdded),
+                "OtherItems": otherItemsAdded,
                 "EmCampus": emitionCampus,
                 "EmPlace": emitionPlace,
                 "ReCampus": receptionCampus,
@@ -212,6 +213,7 @@ sendRequestButton.onclick = (e) => {
     e.preventDefault()
     let dataAsset = data_for_request()
     if (dataAsset != null) {
+        console.log(dataAsset)
         sendingData(dataAsset)
     }else {
         console.log("Faltan datos")

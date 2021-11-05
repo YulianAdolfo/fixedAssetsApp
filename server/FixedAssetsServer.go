@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"text/template"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -19,6 +22,20 @@ type reasons struct {
 }
 type stateSuccess struct {
 	State string
+}
+type dataNewRequest struct {
+	Username    string
+	AssetName   string
+	Brand       string
+	Model       string
+	Serial      string
+	OtherItems  string
+	EmCampus    string
+	EmPlace     string
+	ReCampus    string
+	RePlace     string
+	Reason      string
+	Description string
 }
 
 const (
@@ -122,10 +139,55 @@ func getReasonChange() string {
 	defer databaseConnection.Close()
 	return string(dataToJson)
 }
-func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
-	success := stateSuccess{
-		State: "success",
+func insertRegistryRequestAsset(r *http.Request) string {
+	// creating type struct
+	var dataForInsert dataNewRequest
+	// reading the content sent by users
+	contentBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error reading the body " + err.Error())
 	}
+	// converting the body to json format
+	json.Unmarshal(contentBody, &dataForInsert)
+	// request connection db
+	databaseConnection := connectToData()
+	// creating the query
+	query := "INSERT INTO biomedic_data (USER, ASSET, BRAND, MODEL, SERIAL, ACCESSORIES, DATETIME, CAMPUS_EMITION, PLACE_EMITION, REASON, CAMPUS_RECEPTION, PLACE_RECEPTION, DESCRIPTION, STATE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+	// creating th context
+	contextQuery, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+	// preparing the query
+	statementQuery, err := databaseConnection.PrepareContext(contextQuery, query)
+	if err != nil {
+		fmt.Println("Error preparing the query " + err.Error())
+	}
+	defer statementQuery.Close()
+	_, err = statementQuery.ExecContext(contextQuery,
+		dataForInsert.Username,
+		dataForInsert.AssetName,
+		dataForInsert.Brand,
+		dataForInsert.Model,
+		dataForInsert.Serial,
+		dataForInsert.OtherItems,
+		time.Now().String(),
+		// good
+		dataForInsert.EmCampus,
+		dataForInsert.EmPlace,
+		dataForInsert.Reason,
+		// GOOD
+		dataForInsert.ReCampus,
+		dataForInsert.RePlace,
+		// GOOD
+		dataForInsert.Description,
+		0)
+	if err != nil {
+		fmt.Println("Error exceuting the query context in insert " + err.Error())
+	}
+	return "Successfull"
+}
+func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
+	state := insertRegistryRequestAsset(r)
+	success := stateSuccess{State: state}
 	toJson, err := json.Marshal(success)
 	if err != nil {
 		fmt.Println("Error " + err.Error())

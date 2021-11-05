@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"text/template"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -87,10 +89,17 @@ func getMainAreasCampus() string {
 	defer databaseConnection.Close()
 	return string(dataToJson)
 }
+func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
+
+}
+func accountUser(w http.ResponseWriter, r *http.Request) {
+	accountPage := template.Must(template.ParseFiles("../users/app.html"))
+	accountPage.Execute(w, nil)
+}
 func main() {
-	data1 := getEspecialistsAreasCampus()
-	fmt.Println(data1)
-	data2 := getMainAreasCampus()
-	fmt.Println("Main.........................---------------")
-	fmt.Println(data2)
+	publicSpace := http.FileServer(http.Dir("../public"))
+	http.Handle("/public/", http.StripPrefix("/public/", publicSpace))
+	http.HandleFunc("/new-request-asset", receiveNewRequest)
+	http.HandleFunc("/account-new-request", accountUser)
+	http.ListenAndServe(":5200", nil)
 }

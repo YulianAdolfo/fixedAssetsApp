@@ -1,10 +1,12 @@
 let addItems = document.getElementById("add-accessories")
+let sendRequestButton = document.getElementById("button-send-request")
+let addedItemsList = []
 let panel = null
 let modal = null
 addItems.onclick = () => {
     modal.style.display = "block"
 }
-function create_modal_form (windowDiv) {
+function create_modal_form(windowDiv) {
     var container = document.createElement("div")
     var header = document.createElement("header")
     var textBoxNameItem = document.createElement("input")
@@ -61,15 +63,25 @@ function create_modal_form (windowDiv) {
             iconX.classList.add("fas", "fa-times")
             iconX.style.color = "red"
             iconX.style.cursor = "pointer"
+            let nItem = textBoxNameItem.value
+            let dItem = textboxDescriptionItem.value
             tdDelete.appendChild(iconX)
-            trContent.appendChild(tdName).innerHTML = textBoxNameItem.value
-            trContent.appendChild(tdDescription).innerHTML = textboxDescriptionItem.value
+            trContent.appendChild(tdName).innerHTML = nItem
+            trContent.appendChild(tdDescription).innerHTML = dItem
             trContent.appendChild(tdDelete)
             textBoxNameItem.value = ""
             textboxDescriptionItem.value = ""
             tableAddedItem.appendChild(trContent)
-
+            var appendData = {
+                nameItem: nItem,
+                descriptionItem: dItem
+            }
+            var toJson = JSON.stringify(appendData)
+            addedItemsList.push(toJson)
+            console.log(addedItemsList)
             iconX.onclick = (e) => {
+                addedItemsList = addedItemsList.filter(item => item !== toJson)
+                console.log(addedItemsList)
                 tableAddedItem.removeChild(e.target.parentElement.parentElement)
             }
         }
@@ -84,6 +96,42 @@ function panel_window() {
     panel.classList.add("panel-window")
     document.body.appendChild(panel)
     return panel
+}
+function data_for_request() {
+    // getting the first data container
+    var assetName = document.getElementById("asset-box").value
+    var brand = document.getElementById("brand-box").value
+    var model = document.getElementById("model-box").value
+    var serial = document.getElementById("serial-box").value
+    var otherItemsAdded = addedItemsList
+
+    // getting the emition campus and place
+    var emitionCampus = document.getElementById("select-campus-asset")
+    var emitionPlace = document.getElementById("select-area-campus-asset")
+    emitionCampus = emitionCampus.options[emitionCampus.selectedIndex].value
+    emitionPlace = emitionPlace.options[emitionPlace.selectedIndex].value
+
+    // getting the reception campus and place
+    var receptionCampus = document.getElementById("select-campus-asset-r")
+    var receptionPlace = document.getElementById("select-area-campus-asset-r")
+    receptionCampus = receptionCampus.options[receptionCampus.selectedIndex].value
+    receptionPlace = receptionPlace.options[receptionPlace.selectedIndex].value
+
+    // getting reason and description why
+    var reason = document.getElementById("select-reason-asset")
+    var descriptionWhy = document.getElementById("txt-area-description").value
+    reason = reason.options[reason.selectedIndex].value
+
+    if (assetName != "" && brand != "" && model != "" && serial != "" && emitionCampus != "Seleccione una opción" &&
+        emitionPlace != "Seleccione una opción" && receptionCampus != "Seleccione una opción" &&
+        receptionPlace != "Seleccione una opción" && reason != "Seleccione una opción" && descriptionWhy != "") {
+            
+    }
+
+}
+sendRequestButton.onclick = (e) => {
+    e.preventDefault()
+    data_for_request()
 }
 // it creates the modal just one time
 modal = create_modal_form(panel_window())

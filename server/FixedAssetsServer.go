@@ -208,12 +208,14 @@ func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, getReasonChange())
 }
 func main() {
-	publicSpace := http.FileServer(http.Dir("../public"))
+	/* publicSpace := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", publicSpace))
 	http.HandleFunc("/new-request-asset", receiveNewRequest)
 	http.HandleFunc("/account-new-request", accountUser)
 	http.HandleFunc("/specialists-areas", specialistsAreas)
 	http.HandleFunc("/main-areas", mainAreas)
 	http.HandleFunc("/reason-change", reasonWhyChange)
-	http.ListenAndServe(":5200", nil)
+	http.ListenAndServe(":5200", nil) */
+	en := SendEmailToAdmin("yulianrojas2000@gmail.com", "Prueba de envío", "Enviado desde golang este e-mail")
+	fmt.Println(en)
 }

@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+}
+.main-email-content {
+    width: 100%;
+    height: 400px;
+    background-color: white;
+    margin: 0 auto;
+}
+.main-email-content h2, h3 {
+    text-align: center;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.main-email-content header {
+    width: 100%;
+    height: 100px;
+    background-color: #00adef;
+}
+.main-email-content .image-div {
+    width: 20%;
+    float: left;
+}
+.main-email-content .image-div div {
+    width: 90%;
+    height: 90%;
+    background-image: url('./Logo\ IPS\ blanco.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+    margin: 5px;
+}
+.main-email-content .title-div {
+    width: 80%;
+    float: right;
+    color: white;
+}
+.main-email-content .image-div, .main-email-content .title-div {
+    height: 100%;
+}
+.emition, .reception, .reason {
+    width: 100%;
+    height: auto;
+    height: 50px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.emition h2, p, .reception h2, p, .reason h2 , p{
+    display: inline-block;
+    font-size: 20px;
+}
+.emition h2, .reception h2 {
+    margin-left: 20px;
+    font-size: 25px;
+    float: left;
+}
+.emition p, .reception p, .reason p {
+    width: 30%;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+.emition p:nth-of-type(1), .reception p:nth-of-type(1), .reason h2 {
+    float: left;
+    margin-left: 50px;
+}
+.emition p:nth-of-type(2), .reception p:nth-of-type(2), .reason p {
+    float: right;
+    margin-right: 50px;
+}
+.reason h2 {
+    margin-left: 20px;
+    font-size: 25px;
+}
+.reason p {
+    width: 80%;
+    margin-right: 50px;
+}
+.description textarea {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+}
+.main-email-content button {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+    height: 40px;
+    margin-top: 20px;
+    cursor: pointer;
+}

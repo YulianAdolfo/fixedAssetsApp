@@ -1,11 +1,12 @@
 body {
     margin: 0;
-    overflow:hidden
+    overflow:hidden;
 }
 .container-all {
     width:100%; 
     height:100vh;
     overflow-y:scroll;
+    overflow-x: hidden;
 
 }
 .main-container-app {
@@ -102,6 +103,7 @@ body {
     margin: 0 auto;
     position: relative;
     margin-top: 25px;
+    min-width: 200px;
 }
 .container-add-items header {
     width: 98%;
@@ -163,6 +165,153 @@ body {
     height: 30px;
     cursor: pointer;
 }
+/*responsive main page app*/
+@media screen and (max-width:1115px){
+    .main-container-app {
+        width: 100%;
+    }
+    .data-container-1 div {
+        width: 100%;
+        width: 400px;
+    }
+    .data-container-1 div:nth-of-type(5) {
+        margin-left: 0;
+    }
+    .data-container-1 div:nth-of-type(5) span{
+        margin-left: 0;
+    }
+    .data-container-1 div:nth-of-type(5) input{
+        margin-right: 0;
+    }
+    .data-container-1 div:nth-of-type(6) {
+        text-align: center;
+    }
+}
+/* app items responsive*/
+@media screen and (max-width:865px){
+    .container-add-items header {
+        display:block;
+        height:auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .container-add-items header input{
+        width: 95%;
+        display: block;
+        margin: 0 auto;
+        margin-top: 5px;
+        text-align: center;
+    }
+    .container-add-items header button {
+        width: 200px;
+        display: block;
+        margin-top: 10px;
+        margin-left: 10px;
+        float: left;
+    }
+    .container-table {
+        height: 400px;
+    }
+    .container-table {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .container-add-items header {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .button-div-close button{
+        display: inline;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        border: none;
+        outline: none;
+        width: 100px;
+        height: 25px;
+    }
+}
+/* ends items responsive*/
+
+@media screen and (max-width:837px){
+    .data-container-1 {
+        display:block;
+    }
+    .data-container-1 div {
+        width: 100%;
+    }
+    .data-container-1 div:nth-of-type(5) span{
+        margin-left: 15px;
+    }
+    .data-container-1 div:nth-of-type(5) input{
+        margin-right: 5px;
+    }
+    .data-container-1 div input {
+        text-align: center;
+    }
+}
+/* app items responsive*/
+@media screen and (max-width:550px){
+    .container-add-items {
+        width: 98%;
+    }
+}
+/* ends items responsive*/
+@media screen and (max-width:495px) {
+    .data-container-1 {
+        display: block;
+        position: relative;
+    }
+    .data-container-1 span{
+        display: block;
+        width: 100%;
+        margin: 0;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 18px;
+    }
+    .data-container-1 input {
+        display: block;
+        float: none;
+        width: 98%;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+    .data-container-1 div {
+        display:block;
+        width:100%;
+        margin:0;
+        height: auto;
+        padding-bottom:5px;
+    }
+    .data-container-1 div:nth-of-type(5) input{
+        margin: 0 auto;
+    }
+    .data-container-5 textarea{
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+}
+/* app items responsive*/
+@media screen and (max-width:355px){
+    .container-add-items header {
+        height: 100px;
+    }
+    .container-add-items header button {
+        width: 70px;
+        margin-left: 6px;
+    }
+    .button-div-close button {
+        bottom: 18px;
+        right: 10px;
+    }
+}
+/* ends items responsive*/
 /* responsive win loading */
 @media screen and (max-width:320px){
     .responsive-win {
@@ -170,4 +319,29 @@ body {
         padding-bottom:15px;
         min-width: 160px;
     }   
+}
+@media screen and (max-width:300px){
+    .data-container-2, .data-container-3 {
+        width: 100%;
+        display: block;
+    }
+    .data-container-2 div, .data-container-3 div {
+        width:100%;
+        padding-bottom: 10px;
+    }
+     .data-container-2 select, .data-container-3 select {
+        float: none;
+        margin: 0 auto;
+        width: 95%;
+        text-align: center;
+    }
+    .data-container-2 span, .data-container-3 span {
+        margin: 0;
+        width: 100%;
+        text-align: center;
+        display: block;
+        font-size: 18px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
 }

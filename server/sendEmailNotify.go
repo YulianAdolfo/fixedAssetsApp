@@ -36,7 +36,7 @@ func sendEmailNow(addressEmailTo []string, subjectEmail string, dataUserEmail *d
 	}
 	var containerHTML bytes.Buffer
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	containerHTML.Write([]byte(fmt.Sprintf("Subject:"+subjectEmail+"\nTo:", addressEmailTo, "\nFrom:"+email+"\n%s\n\n", mimeHeaders)))
+	containerHTML.Write([]byte(fmt.Sprintf("Subject:"+subjectEmail+"\n%s\n\n", mimeHeaders)))
 
 	templateEmailSend.Execute(&containerHTML, struct {
 		User            string

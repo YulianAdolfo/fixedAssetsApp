@@ -12,8 +12,9 @@ const (
 	SIMPLE_MAIL_TRANSFER_PORT = "587"
 )
 
-func SendEmailToAdmin(address, subject, contentMessage string) string {
-	sendmail, err := sendEmailNow(address, subject, contentMessage)
+func SendEmailToAdmin(address, subject, contentMessage string, dataUserEmail *dataNewRequest) string {
+	fmt.Println(dataUserEmail.Username)
+	sendmail, err := sendEmailNow(address, subject, contentMessage, dataUserEmail)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -25,7 +26,7 @@ func getCredentialEmitter() (string, string) {
 
 	return emitterEmail, emitterEmailPassword
 }
-func sendEmailNow(addressTo, subjectEmail, EmailBody string) (string, error) {
+func sendEmailNow(addressTo, subjectEmail, EmailBody string, dataUserEmail *dataNewRequest) (string, error) {
 	// address where will send the notification emails
 	email, password := getCredentialEmitter()
 	// address to send the email
@@ -37,14 +38,24 @@ func sendEmailNow(addressTo, subjectEmail, EmailBody string) (string, error) {
 	}
 	var containerHTML bytes.Buffer
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	containerHTML.Write([]byte(fmt.Sprintf("Subject: Testing subject HTML \n%s\n\n ", mimeHeaders)))
+	containerHTML.Write([]byte(fmt.Sprintf("Subject: HTML \n%s\n\n ", mimeHeaders)))
 
 	templateEmailSend.Execute(&containerHTML, struct {
-		Name    string
-		Message string
+		User            string
+		EmitionCampus   string
+		EmitionPlace    string
+		ReceptionCampus string
+		ReceptionPlace  string
+		Reason          string
+		Description     string
 	}{
-		Name:    "Yulian Adolfo",
-		Message: "Mensaje en html",
+		User:            dataUserEmail.Username,
+		EmitionCampus:   dataUserEmail.EmCampus,
+		EmitionPlace:    dataUserEmail.EmPlace,
+		ReceptionCampus: dataUserEmail.ReCampus,
+		ReceptionPlace:  dataUserEmail.RePlace,
+		Reason:          dataUserEmail.Reason,
+		Description:     dataUserEmail.Description,
 	})
 	// message to send
 	/* messageToSend := []byte(

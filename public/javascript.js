@@ -157,7 +157,6 @@ function create_modal_form(windowDiv) {
 function panel_window() {
     panel = document.createElement("div")
     panel.classList.add("panel-window")
-    document.body.style.overflow = "hidden"
     document.body.appendChild(panel)
     return panel
 }
@@ -220,8 +219,12 @@ sendRequestButton.onclick = (e) => {
         console.log("Faltan datos")
     }
     async function sendingData(contentRequest) {
+        onprogressFunction(panel_window())
+        activateOverFlowApp(false)
         var stateRequest = await sendRequestToServer(contentRequest)
-        console.log("mensaje !: ", stateRequest)
+        removeLastElementApp()
+        activateOverFlowApp(true)
+        createAlertToUser("successfull", stateRequest.State)
     }
     function sendRequestToServer(contentRequest) {
         var stateRequest = new Promise((resolve, reject) => {
@@ -286,8 +289,70 @@ function onprogressFunction(onprogressWin) {
     onprogressWin.appendChild(progressPanel)
 
 }
+function createAlertToUser(warning, content) {
+    let alert = document.createElement("div")
+    let iconX = document.createElement("i")
+    let color = null
+    alert.style.width = "350px"
+    alert.style.height = "100px"
+    alert.style.position = "absolute"
+    alert.style.right = "20px"
+    alert.style.bottom= "10px"
+    alert.style.borderRadius = "10px"
+    alert.style.color = "white"
+    alert.style.fontSize = "18px"
+    alert.style.display = "flex"
+    alert.style.justifyContent = "center"
+    alert.style.alignItems = "center"
+    alert.style.textAlign ="center"
+    alert.style.paddingLeft = "8px"
+    alert.style.paddingRight = "8px"
+    alert.style.transform = "translateX(110%)"
+ 
+    iconX.classList.add("fas", "fa-times")
+    iconX.style.position = "absolute"
+    iconX.style.right ="6px"
+    iconX.style.top = "5px"
+    iconX.style.color = "white"
+    iconX.style.fontSize = "15px"
+    switch(warning){
+        case "ERROR":
+            color = "red"
+            break;
+        case "EMPTY_FIELDS":
+            color = "orange"
+            break;
+        case "successfull":
+            color = "rgba(0, 207, 35, 0.924)"
+            break;
+    }
+    alert.style.backgroundColor = color
+    alert.appendChild(iconX)
+    alert.innerHTML += content
+    document.body.appendChild(alert)
+    iconX.onclick = () => {
+        document.body.removeChild(alert)
+    }
+    setTimeout(() => {
+        alert.style.transition = ".8s"
+        alert.style.transform = "translateX(0%)"
+        setTimeout(() => {
+            alert.style.transition = ".8s"
+            alert.style.transform = "translateX(110%)" 
+            setTimeout(() => {
+                document.body.removeChild(alert)
+            }, 1000);
+        }, 3000);
+    }, 200);
+}
+function activateOverFlowApp(state) {
+    state === true ? document.body.style.overflowY = "scroll" : document.body.style.overflowY = "hidden"
+}
+function removeLastElementApp() {
+    document.body.removeChild(document.body.lastChild)
+}
 // it creates the modal just one time
 modal = create_modal_form(panel_window())
 getReasons()
 
-onprogressFunction(panel_window())
+createAlertToUser("successfull", "good")

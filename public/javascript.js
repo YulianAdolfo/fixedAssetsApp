@@ -9,7 +9,7 @@ let selectReasonChange = document.getElementById("select-reason-asset")
 let addedItemsList = []
 let panel = null
 let modal = null
-const ADDRESS_SERVER = "http://localhost:5200/"
+const ADDRESS_SERVER = "http://192.168.1.18:5200/"
 addItems.onclick = () => {
     modal.style.display = "block"
 }
@@ -267,7 +267,7 @@ function onprogressFunction(onprogressWin) {
     var progressIcon = document.createElement("div")
     var progressMessage = document.createElement("p")
 
-    progressMessage.innerHTML = "Enviando petición, por favor espere"
+    progressMessage.innerHTML = "Enviado, por favor espere..."
     progressMessage.style.width = "100%"
     progressMessage.style.textAlign = "center"
     progressMessage.style.fontSize = "20px"

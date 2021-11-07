@@ -157,6 +157,7 @@ function create_modal_form(windowDiv) {
 function panel_window() {
     panel = document.createElement("div")
     panel.classList.add("panel-window")
+    document.body.style.overflow = "hidden"
     document.body.appendChild(panel)
     return panel
 }
@@ -249,6 +250,44 @@ function appendReasons(dataInJson, selectElement) {
         selectElement.appendChild(opt)
     }
 }
+function onprogressFunction(onprogressWin) {
+    onprogressWin.style.backgroundColor = "rgba(0, 0,0 , .8)"
+    onprogressWin.style.display = "flex"
+    onprogressWin.style.justifyContent = "center"
+    onprogressWin.style.alignItems = "center"
+    var progressPanel = document.createElement("div")
+    var progressIcon = document.createElement("div")
+    var progressMessage = document.createElement("p")
+
+    progressMessage.innerHTML = "Enviando petición, por favor espere"
+    progressMessage.style.width = "100%"
+    progressMessage.style.textAlign = "center"
+    progressMessage.style.fontSize = "20px"
+    progressMessage.style.color = "white"
+    progressMessage.style.margin = "0"
+    progressMessage.style.marginTop = "5px"
+
+    progressIcon.style.backgroundImage = "url(../public/Images/loading.gif)"
+    progressIcon.style.backgroundSize = "contain"
+    progressIcon.style.width = "45px"
+    progressIcon.style.height ="45px"
+    progressIcon.style.display = "block"
+    progressIcon.style.margin = "0 auto"
+    progressIcon.style.marginTop = "10px"
+
+    progressPanel.style.width  = "300px"
+    progressPanel.style.height = "100px"
+    progressPanel.style.borderRadius = "10px"
+    progressPanel.style.backgroundColor = "rgb(30, 219, 5)"
+
+    progressPanel.classList.add("responsive-win")
+    progressPanel.appendChild(progressIcon)
+    progressPanel.appendChild(progressMessage)
+    onprogressWin.appendChild(progressPanel)
+
+}
 // it creates the modal just one time
 modal = create_modal_form(panel_window())
 getReasons()
+
+onprogressFunction(panel_window())

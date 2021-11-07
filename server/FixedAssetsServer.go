@@ -170,19 +170,32 @@ func insertRegistryRequestAsset(r *http.Request) string {
 		dataForInsert.Serial,
 		dataForInsert.OtherItems,
 		time.Now().String(),
-		// good
 		dataForInsert.EmCampus,
 		dataForInsert.EmPlace,
 		dataForInsert.Reason,
-		// GOOD
 		dataForInsert.ReCampus,
 		dataForInsert.RePlace,
-		// GOOD
-		dataForInsert.Description,
-		0)
+		dataForInsert.Description, 0) // zero indicates the state 0 (sent but not approved)
 	if err != nil {
 		fmt.Println("Error exceuting the query context in insert " + err.Error())
 	}
+	// if the register of data was successfull, we continue sending the notification through email to the administrators
+	dataForEmail := dataNewRequest{
+		Username:    dataForInsert.Username,
+		EmCampus:    dataForInsert.EmCampus,
+		EmPlace:     dataForInsert.EmPlace,
+		ReCampus:    dataForInsert.ReCampus,
+		RePlace:     dataForInsert.RePlace,
+		Reason:      dataForInsert.Reason,
+		Description: dataForInsert.Description,
+	}
+	/* 	1- yulianrojas2000@gmail is the email where will be sent the notification of a new request biomedic asset
+	it´s possible to add many emails to the array
+	2- Message email
+	3- Data for administrators
+	*/
+	en := SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
+	fmt.Println(en)
 	return "Successfull"
 }
 func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
@@ -208,24 +221,12 @@ func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, getReasonChange())
 }
 func main() {
-	/* publicSpace := http.FileServer(http.Dir("../public"))
+	publicSpace := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", publicSpace))
 	http.HandleFunc("/new-request-asset", receiveNewRequest)
 	http.HandleFunc("/account-new-request", accountUser)
 	http.HandleFunc("/specialists-areas", specialistsAreas)
 	http.HandleFunc("/main-areas", mainAreas)
 	http.HandleFunc("/reason-change", reasonWhyChange)
-	http.ListenAndServe(":5200", nil) */
-	dataForEmail := dataNewRequest{
-		Username:    "Yulian Adolfo Rojas Gañan",
-		EmCampus:    "Sede especialistas",
-		EmPlace:     "Consultorio 1",
-		ReCampus:    "Sede central",
-		RePlace:     "Laboratorio de envejecimiento",
-		Reason:      "Reparación o mantenimiento preventivo",
-		Description: "El equipo ha sufrido un daño irreparable",
-	}
-
-	en := SendEmailToAdmin("yulianrojas2000@gmail.com", "Prueba de envío", "Enviado desde golang este e-mail", &dataForEmail)
-	fmt.Println(en)
+	http.ListenAndServe(":5200", nil)
 }

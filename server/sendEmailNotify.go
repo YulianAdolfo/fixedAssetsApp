@@ -12,9 +12,9 @@ const (
 	SIMPLE_MAIL_TRANSFER_PORT = "587"
 )
 
-func SendEmailToAdmin(address, subject, contentMessage string, dataUserEmail *dataNewRequest) string {
+func SendEmailToAdmin(address []string, subject string, dataUserEmail *dataNewRequest) string {
 	fmt.Println(dataUserEmail.Username)
-	sendmail, err := sendEmailNow(address, subject, contentMessage, dataUserEmail)
+	sendmail, err := sendEmailNow(address, subject, dataUserEmail)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -26,11 +26,9 @@ func getCredentialEmitter() (string, string) {
 
 	return emitterEmail, emitterEmailPassword
 }
-func sendEmailNow(addressTo, subjectEmail, EmailBody string, dataUserEmail *dataNewRequest) (string, error) {
+func sendEmailNow(addressEmailTo []string, subjectEmail string, dataUserEmail *dataNewRequest) (string, error) {
 	// address where will send the notification emails
 	email, password := getCredentialEmitter()
-	// address to send the email
-	addressEmailTo := []string{addressTo}
 	// Template email
 	templateEmailSend, err := template.ParseFiles("./privateTemplate/templateEmail.html")
 	if err != nil {
@@ -38,7 +36,7 @@ func sendEmailNow(addressTo, subjectEmail, EmailBody string, dataUserEmail *data
 	}
 	var containerHTML bytes.Buffer
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	containerHTML.Write([]byte(fmt.Sprintf("Subject: HTML \n%s\n\n ", mimeHeaders)))
+	containerHTML.Write([]byte(fmt.Sprintf("Subject:"+subjectEmail+"\nTo:", addressEmailTo, "\nFrom:"+email+"\n%s\n\n", mimeHeaders)))
 
 	templateEmailSend.Execute(&containerHTML, struct {
 		User            string

@@ -26,14 +26,18 @@ async function dataFromAreasCampus(campus, selectElement) {
             removeItemsList(selectElement)
             break;
         case "1":
+            retrievingDataProgress() 
             var content = await getAreas("main-areas")
             removeItemsList(selectElement)
             appendItemsToList(selectElement, content)
+            removeLastElementApp()
             break;
         case "2":
+            retrievingDataProgress() 
             var content = await getAreas("specialists-areas")
             removeItemsList(selectElement)
             appendItemsToList(selectElement, content)
+            removeLastElementApp()
             break;
         case "3s":
             var content = await getAreas("reason-change")
@@ -206,6 +210,7 @@ function data_for_request() {
             prepareDataToSend = JSON.stringify(toJsonData)
         }else {
             prepareDataToSend = null
+            createAlertToUser("empty", "Aún faltan campos por llenar en esta sección, por favor verifique")
         }
         return prepareDataToSend
 }
@@ -319,7 +324,7 @@ function createAlertToUser(warning, content) {
         case "ERROR":
             color = "red"
             break;
-        case "EMPTY_FIELDS":
+        case "empty":
             color = "orange"
             break;
         case "successfull":
@@ -345,6 +350,23 @@ function createAlertToUser(warning, content) {
         }, 3000);
     }, 200);
 }
+function retrievingDataProgress() {
+    var rtvData = panel_window()
+    var h3 = document.createElement("h3")
+    //rtvData.style.backgroundColor = "rgba(0, 0,0 , .8)"
+    rtvData.style.display = "flex"
+    rtvData.style.justifyContent = "center"
+    rtvData.style.alignItems = "center"
+    h3.innerHTML = "Recuperando datos, por favor espere..."
+    h3.style.backgroundColor = "rgb(30, 219, 5)"
+    h3.style.padding = "10px"
+    h3.style.borderRadius = "5px"
+    h3.style.color = "white"
+    h3.style.boxShadow = "-1px 1px 5px .5px white"
+    h3.style.fontSize = "15px"
+    rtvData.appendChild(h3)
+
+}
 function activateOverFlowApp(state) {
     state === true ? document.body.style.overflowY = "scroll" : document.body.style.overflowY = "hidden"
 }
@@ -354,5 +376,3 @@ function removeLastElementApp() {
 // it creates the modal just one time
 modal = create_modal_form(panel_window())
 getReasons()
-
-createAlertToUser("successfull", "good")

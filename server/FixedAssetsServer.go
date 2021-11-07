@@ -216,6 +216,16 @@ func main() {
 	http.HandleFunc("/main-areas", mainAreas)
 	http.HandleFunc("/reason-change", reasonWhyChange)
 	http.ListenAndServe(":5200", nil) */
-	en := SendEmailToAdmin("yulianrojas2000@gmail.com", "Prueba de envío", "Enviado desde golang este e-mail")
+	dataForEmail := dataNewRequest{
+		Username:    "Yulian Adolfo Rojas Gañan",
+		EmCampus:    "Sede especialistas",
+		EmPlace:     "Consultorio 1",
+		ReCampus:    "Sede central",
+		RePlace:     "Laboratorio de envejecimiento",
+		Reason:      "Reparación o mantenimiento preventivo",
+		Description: "El equipo ha sufrido un daño irreparable",
+	}
+
+	en := SendEmailToAdmin("yulianrojas2000@gmail.com", "Prueba de envío", "Enviado desde golang este e-mail", &dataForEmail)
 	fmt.Println(en)
 }

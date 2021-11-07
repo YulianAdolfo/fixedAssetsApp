@@ -180,6 +180,16 @@ func insertRegistryRequestAsset(r *http.Request) string {
 		fmt.Println("Error exceuting the query context in insert " + err.Error())
 	}
 	// if the register of data was successfull, we continue sending the notification through email to the administrators
+	if dataForInsert.EmCampus == "1" {
+		dataForInsert.EmCampus = "Sede central"
+	} else {
+		dataForInsert.EmCampus = "Sede especialistas"
+	}
+	if dataForInsert.ReCampus == "1" {
+		dataForInsert.ReCampus = "Sede central"
+	} else {
+		dataForInsert.ReCampus = "Sede especialistas"
+	}
 	dataForEmail := dataNewRequest{
 		Username:    dataForInsert.Username,
 		EmCampus:    dataForInsert.EmCampus,
@@ -194,9 +204,8 @@ func insertRegistryRequestAsset(r *http.Request) string {
 	2- Message email
 	3- Data for administrators
 	*/
-	en := SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
-	fmt.Println(en)
-	return "Successfull"
+	go SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
+	return "Proceso exitoso, se notificará en breve al administrador"
 }
 func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
 	state := insertRegistryRequestAsset(r)

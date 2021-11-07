@@ -190,7 +190,7 @@ function data_for_request() {
         emitionPlace != "Seleccione una opción" && receptionCampus != "Seleccione una opción" &&
         receptionPlace != "Seleccione una opción" && reason != "Seleccione una opción" && descriptionWhy != "") {
             var toJsonData = {
-                "User": "1Yulian",
+                "Username": "Yulian Adolfo Rojas Gañan",
                 "AssetName": assetName,
                 "Brand": brand,
                 "Model": modal,

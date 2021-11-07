@@ -1,45 +1,201 @@
-<!-- template html-->
+<!--template html-->
 <!DOCTYPE html>
-
-<html>
-    <link rel="stylesheet" href="./template.css">
-    <body>
-        <div class="main-email-content">
-            <header>
-                <div class="image-div">
-                    <div>
-
-                    </div>
-                </div>
-                <div class="title-div">
-                    <h2>Corporación IPS Universitaria de Caldas</h2>
-                    <hr>
-                    <h3>Control institucional de activos fijos</h3>
-                </div>
-            </header> 
-            <div class="requester">
-                <h2>Solicitante:</h2>
-                <p>Yulian Adolfo Rojas Gañan</p>
-            </div>           
-            <div class="emition">
-                <h2>Emisión:</h2>
-                <p>Sede especialsitas</p>
-                <p>Laboratorio clínico</p>
-            </div>
-            <div class="reception">
-                <h2>Recepción:</h2>
-                <p>Sede especialsitas</p>
-                <p>Laboratorio clínico</p>
-            </div>
-            <div class="reason">
-                <h2>Motivo</h2>
-                <p>aldfajsdfklasdjfaskldfkjlasdfkasjdlfasldjfasjfasfdajlsfd</p>
-            </div>
-            <div class="description">
-                <h2>Descripción</h2>
-                <textarea name="" id="" cols="30" rows="10" disabled></textarea>
-            </div>
-            <button>Ver más detalles</button>
-        </div>
-    </body>
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+      table {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+      }
+      table td,
+      th,
+      tr {
+        border: 1px solid #ddd;
+        padding: 2px;
+      }
+      table th {
+        background-color: #00adef;
+        color: white;
+      }
+      table textarea {
+        width: 98%;
+        height: 100px;
+        display: block;
+        margin: 0 auto;
+        outline: none;
+        border: none;
+        background-color: white;
+        text-align: left;
+        font-size: 15px;
+        padding: 5px;
+      }
+      table h2 {
+        margin: 0;
+        font-size: 21px;
+        text-align: left;
+        margin-left: 10px;
+      }
+      table td {
+        text-align: center;
+        font-size: 18px;
+      }
+      button {
+        display: block;
+        width: 50%;
+        height: 30px;
+        margin: 0 auto;
+        margin-top: 10px;
+        background-color: rgb(30, 219, 5);
+        color: white;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        height: 35px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .over-f {
+        overflow-x: hidden;
+      }
+      .logo-container-image,
+      .container-title-subtitle {
+        height: 80px;
+        float: left;
+        background-color: #00adef;
+        margin-bottom: 2px;
+      }
+      .logo-container-image {
+        width: 20%;
+        background-size: contain;
+      }
+      .logo-container-image div {
+        width: 90%;
+        height: 90%;
+        margin: 0 auto;
+        margin-top: 2px;
+        background-image: url("https://ipsucaldas.com/page/wp-content/uploads/2021/02/Logo-IPS-blanco.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      .container-title-subtitle {
+        width: 80%;
+      }
+      .container-title-subtitle h2,
+      h3 {
+        margin: 0;
+        text-align: center;
+        color: white;
+        margin-top: 5px;
+      }
+      .container-title-subtitle h3 {
+        font-style: italic;
+      }
+      @media screen and (max-width: 780px) {
+        .container-title-subtitle h2 {
+          font-size: 20px;
+        }
+        .container-title-subtitle h3 {
+          font-size: 18px;
+        }
+        table th h2 {
+          font-size: 18px;
+          text-align: left;
+          margin:0;
+        }
+        table td  {
+          font-size: 15px;
+        }
+      }
+      @media screen and (max-width: 650px) {
+        button {
+          width: 80%;
+        }
+      }
+      @media screen and (max-width: 550px) {
+        .container-title-subtitle h2 {
+          font-size: 18px;
+        }
+        .container-title-subtitle h3 {
+          font-size: 16px;
+        }
+      }
+      @media screen and (max-width: 470px) {
+        .logo-container-image,
+        .container-title-subtitle {
+            display: block;
+            float: none;
+            width: 100%;
+            margin: 0;
+        }
+        .logo-container-image div {
+            margin: 0;
+        }
+        .container-title-subtitle h2,
+      h3 {
+        margin: 0;
+        padding-top: 5px;
+      }
+      }
+      @media screen and (max-width: 400px) {
+        button {
+          width: 98%;
+        }
+      }
+      @media screen and (max-width:320px) {
+        header {
+          display:block;
+          position:relative;
+          height:190px;
+          background-color:#00adef;
+          
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header-email">
+      <div class="logo-container-image">
+        <div></div>
+      </div>
+      <div class="container-title-subtitle">
+        <h2>Corporación IPS Universitaria de Caldas</h2>
+        <h3>Control institucional de activos fijos</h3>
+      </div>
+    </header>
+    <table>
+      <tr>
+        <th><h2>Solicitante</h2></th>
+        <td colspan="2"><p>{{.User}}</p></td>
+      </tr>
+      <tr>
+        <th><h2>Emisión</h2></th>
+        <td>{{.EmitionCampus}}</td>
+        <td>{{.EmitionPlace}}</td>
+      </tr>
+      <tr>
+        <th><h2>Recepción</h2></th>
+        <td>{{.ReceptionCampus}}</td>
+        <td>{{.ReceptionPlace}}</td>
+      </tr>
+      <tr>
+        <th><h2>Motivo</h2></th>
+        <td colspan="2" class="over-f">
+          {{.Reason}}
+        </td>
+      </tr>
+      <tr>
+        <th><h2>Descripción</h2></th>
+        <td colspan="2">
+          <textarea name="" id="" cols="30" rows="10" disabled>
+            {{.Description}}
+          </textarea>
+        </td>
+      </tr>
+    </table>
+    <button onclick="alert('go to app!')">Ver más detalles</button>
+  </body>
 </html>

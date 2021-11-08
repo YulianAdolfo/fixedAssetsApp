@@ -130,6 +130,8 @@ function create_modal_form(windowDiv) {
             iconX.classList.add("fas", "fa-times")
             iconX.style.color = "red"
             iconX.style.cursor = "pointer"
+            iconX.style.fontSize = "18px"
+            iconX.style.fontWeight = "bold"
             let nItem = textBoxNameItem.value
             let dItem = textboxDescriptionItem.value
             tdDelete.appendChild(iconX)

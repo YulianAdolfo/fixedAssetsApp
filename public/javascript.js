@@ -145,16 +145,15 @@ function create_modal_form(windowDiv) {
             }
             var toJson = JSON.stringify(appendData)
             addedItemsList.push(toJson)
-            console.log(addedItemsList)
             iconX.onclick = (e) => {
                 addedItemsList = addedItemsList.filter(item => item !== toJson)
-                console.log(addedItemsList)
                 tableAddedItem.removeChild(e.target.parentElement.parentElement)
             }
         }
     }
     button.onclick = () => {
         windowDiv.style.display = "none"
+        document.getElementById("accessories-box").innerHTML = addedItemsList.length + " accesorios agregados"
     }
     return windowDiv
 }

@@ -1,6 +1,7 @@
 body {
     margin: 0;
     overflow:hidden;
+    font-family: 'DM Sans', sans-serif;
 }
 .container-all {
     width:100%; 
@@ -41,6 +42,10 @@ body {
     border-bottom: 1px solid #ddd;
     font-size: 16px;
 }
+.data-container-2 select, .data-container-3 select, .data-container-4 select {
+    font-size: 17px;
+    height: 30px;
+}
 .data-container-1 span, .data-container-2 span, .data-container-3 span, .data-container-4 span {
     margin-left: 10px;
     margin-top: 10px;
@@ -58,7 +63,10 @@ body {
 /* second container app data form */
 .main-container-app h2{
     text-align: center;
-    background-color:#ddd;
+    background-color:#00adef;
+    color: white;
+    padding: 2px;
+    font-size: 18px;
 }
 .data-container-2 select, .data-container-3 select, .data-container-4 select {
     cursor: pointer;
@@ -82,10 +90,16 @@ body {
     display: block;
     margin: 0 auto;
     margin-top: 20px;
-    padding: 5px;
+    padding: 8px;
     font-style: 15px;
     cursor: pointer;
+    background-color: rgb(30, 219, 5);;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
 }
+
 /* panel modal window*/
 .panel-window {
     width: 100%;
@@ -126,10 +140,18 @@ body {
 }
 .container-add-items header button {
     width: 15%;
-    height: 25px;
     border: none;
     outline: none;
     cursor: pointer;
+    background-color: rgb(30, 219, 5);
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 2px;
+    font-size:16px;
+    height:35px;
+    padding-left:2px; 
+    padding-right:5px;
 }
 .container-table {
     width: 98%;
@@ -151,6 +173,10 @@ body {
 }
 .table-style-items th {
     padding: 2px;
+    background-color: #00adef;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
 }
 .button-div-close {
     width: 100%;
@@ -162,8 +188,20 @@ body {
 }
 .button-div-close button {
     width: 50%;
-    height: 30px;
     cursor: pointer;
+    background-color: rgb(30, 219, 5);
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+    font-size:16px;
+    height:35px;
+    padding-left:2px; 
+    padding-right:5px;
+    margin-bottom: 10px;
 }
 /*responsive main page app*/
 @media screen and (max-width:1115px){
@@ -227,12 +265,14 @@ body {
     .button-div-close button{
         display: inline;
         position: absolute;
-        bottom: 20px;
+        bottom: 10px;
         right: 20px;
         border: none;
         outline: none;
         width: 100px;
         height: 25px;
+        padding: 10px;
+        height: 35px;
     }
 }
 /* ends items responsive*/
@@ -296,6 +336,9 @@ body {
         margin-top: 30px;
         margin-bottom: 20px;
     }
+    .table-style-items th {
+        font-size: 15px;
+    }
 }
 /* app items responsive*/
 @media screen and (max-width:355px){
@@ -307,8 +350,11 @@ body {
         margin-left: 6px;
     }
     .button-div-close button {
-        bottom: 18px;
+        width: 75px;
+        bottom: -1px;
         right: 10px;
+        padding-left: 2px;
+        padding-right: 2px;
     }
 }
 /* ends items responsive*/

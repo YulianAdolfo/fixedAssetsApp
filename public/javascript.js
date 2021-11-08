@@ -153,7 +153,8 @@ function create_modal_form(windowDiv) {
     }
     button.onclick = () => {
         windowDiv.style.display = "none"
-        document.getElementById("accessories-box").innerHTML = addedItemsList.length + " accesorios agregados"
+        var accessoriesbox = document.getElementById("accessories-box")
+        accessoriesbox.value = addedItemsList.length + " accesorios agregados"
     }
     return windowDiv
 }

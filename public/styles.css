@@ -1,14 +1,12 @@
 body {
     margin: 0;
-    overflow:hidden;
+    overflow-x:hidden;
+    overflow-y: scroll;
     font-family: 'DM Sans', sans-serif;
 }
-.container-all {
-    width:100%; 
-    height:100vh;
-    overflow-y:scroll;
-    overflow-x: hidden;
-
+textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
 }
 .main-container-app {
     width: 95%;
@@ -51,6 +49,12 @@ body {
     margin-top: 10px;
     display: inline-block;
 }
+.data-container-1 input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 .input-disable {
     background-color: white;
 }
@@ -70,6 +74,8 @@ body {
 }
 .data-container-2 select, .data-container-3 select, .data-container-4 select {
     cursor: pointer;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 .data-container-4 select {
     width: 90%;
@@ -84,6 +90,7 @@ body {
     margin:  0 auto;
     outline: none;
     margin-top: 20px;
+    padding: 10px;
 }
 .main-container-app button {
     width: 50%;
@@ -210,10 +217,11 @@ body {
     }
     .data-container-1 div {
         width: 100%;
-        width: 400px;
+        width: 520px;
     }
     .data-container-1 div:nth-of-type(5) {
         margin-left: 0;
+        
     }
     .data-container-1 div:nth-of-type(5) span{
         margin-left: 0;
@@ -223,6 +231,12 @@ body {
     }
     .data-container-1 div:nth-of-type(6) {
         text-align: center;
+    }
+}
+@media screen and (max-width:1080px){
+    .data-container-1 div{
+        width: 90%;
+
     }
 }
 /* app items responsive*/
@@ -293,15 +307,24 @@ body {
     .data-container-1 div input {
         text-align: center;
     }
-}
-/* app items responsive*/
-@media screen and (max-width:550px){
-    .container-add-items {
-        width: 98%;
+    .data-container-2 select, .data-container-3 select, .data-container-4 select {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        text-align: center;
+    }
+    .data-container-2 span, .data-container-3 span, .data-container-4 span {
+        font-size: 18px;
+    }
+    .main-container-app h2 {
+        padding-top: 5px;
+        padding-bottom: 5px;
     }
 }
 /* ends items responsive*/
-@media screen and (max-width:495px) {
+@media screen and (max-width:590px) {
     .data-container-1 {
         display: block;
         position: relative;
@@ -318,19 +341,27 @@ body {
     .data-container-1 input {
         display: block;
         float: none;
-        width: 98%;
+        width: 95%;
         margin: 0 auto;
         margin-top: 10px;
     }
     .data-container-1 div {
         display:block;
-        width:100%;
+        width:90%;
         margin:0;
         height: auto;
         padding-bottom:5px;
-    }
-    .data-container-1 div:nth-of-type(5) input{
+        float: none;
         margin: 0 auto;
+    }
+    .data-container-1 div:nth-of-type(5) {
+        width: 90%;
+        display: block;
+        margin:  0 auto;
+    }
+    .data-container-1 div:nth-of-type(5) input {
+        margin: 0 auto;
+        width: 95%;
     }
     .data-container-5 textarea{
         margin-top: 30px;
@@ -338,6 +369,23 @@ body {
     }
     .table-style-items th {
         font-size: 15px;
+    }
+    .data-container-4 {
+        width: 100%;
+    }
+    .data-container-4 select {
+        display: block;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
+    .data-container-5 textarea {
+        width: 90%;
+    }
+}
+/* app items responsive*/
+@media screen and (max-width:550px){
+    .container-add-items {
+        width: 98%;
     }
 }
 /* app items responsive*/
@@ -366,22 +414,27 @@ body {
         min-width: 160px;
     }   
 }
-@media screen and (max-width:300px){
-    .data-container-2, .data-container-3 {
+@media screen and (max-width:355px){
+    .data-container-2, .data-container-3, .data-container-4 {
         width: 100%;
         display: block;
     }
-    .data-container-2 div, .data-container-3 div {
+    .data-container-2 div, .data-container-3 div, .data-container-4 div {
         width:100%;
         padding-bottom: 10px;
+        display:block;
+        height:auto;
+        margin:0;
     }
-     .data-container-2 select, .data-container-3 select {
+     .data-container-2 select, .data-container-3 select, .data-container-4 select {
         float: none;
         margin: 0 auto;
         width: 95%;
         text-align: center;
+        margin:0 auto;
+        display:block;
     }
-    .data-container-2 span, .data-container-3 span {
+    .data-container-2 span, .data-container-3 span, .data-container-4 span {
         margin: 0;
         width: 100%;
         text-align: center;
@@ -389,5 +442,8 @@ body {
         font-size: 18px;
         margin-bottom: 10px;
         margin-top: 10px;
+    }
+    .data-container-5 textarea {
+        width: 80%;
     }
 }

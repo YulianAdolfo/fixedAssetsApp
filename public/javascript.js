@@ -9,7 +9,7 @@ let selectReasonChange = document.getElementById("select-reason-asset")
 let addedItemsList = []
 let panel = null
 let modal = null
-const ADDRESS_SERVER = "http://192.168.1.18:5200/"
+const ADDRESS_SERVER = "http://172.16.0.59:5200/"
 addItems.onclick = () => {
     modal.style.display = "block"
 }

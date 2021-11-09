@@ -117,99 +117,6 @@ textarea {
     top: 0;
     z-index: 100;
 }
-.container-add-items {
-    width: 90%;
-    height: 90%;
-    background-color: white;
-    margin: 0 auto;
-    position: relative;
-    margin-top: 25px;
-    min-width: 200px;
-}
-.container-add-items header {
-    width: 98%;
-    height: 40px;
-    margin: 0 auto;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.container-add-items header input {
-    width: 40%;
-    height: 25px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 15px;
-    outline: none;
-    border: none;
-    border-bottom: 1px solid #ddd;
-}
-.container-add-items header button {
-    width: 15%;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background-color: rgb(30, 219, 5);
-    color: white;
-    font-weight: bold;
-    padding: 5px;
-    border-radius: 2px;
-    font-size:16px;
-    height:35px;
-    padding-left:2px; 
-    padding-right:5px;
-}
-.container-table {
-    width: 98%;
-    height: 90%;
-    display: block;
-    margin: 0 auto;
-    overflow-y: scroll;
-}
-.table-style-items {
-    width: 98%;
-    border: 1px solid #dddddd;
-    border-collapse: collapse;
-    margin: 0 auto;
-    margin-top: 10px;
-}
-.table-style-items th, tr, td{
-    border: 1px solid #dddddd;
-    text-align: center;
-}
-.table-style-items th {
-    padding: 2px;
-    background-color: #00adef;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-}
-.button-div-close {
-    width: 100%;
-    height: 40px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.button-div-close button {
-    width: 50%;
-    cursor: pointer;
-    background-color: rgb(30, 219, 5);
-    border-radius: 2px;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 5px;
-    font-size:16px;
-    height:35px;
-    padding-left:2px; 
-    padding-right:5px;
-    margin-bottom: 10px;
-}
 /*responsive main page app*/
 @media screen and (max-width:1115px){
     .main-container-app {
@@ -240,55 +147,7 @@ textarea {
     }
 }
 /* app items responsive*/
-@media screen and (max-width:865px){
-    .container-add-items header {
-        display:block;
-        height:auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    .container-add-items header input{
-        width: 95%;
-        display: block;
-        margin: 0 auto;
-        margin-top: 5px;
-        text-align: center;
-    }
-    .container-add-items header button {
-        width: 200px;
-        display: block;
-        margin-top: 10px;
-        margin-left: 10px;
-        float: left;
-    }
-    .container-table {
-        height: 400px;
-    }
-    .container-table {
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .container-add-items header {
-        position: absolute;
-        bottom: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    .button-div-close button{
-        display: inline;
-        position: absolute;
-        bottom: 10px;
-        right: 20px;
-        border: none;
-        outline: none;
-        width: 100px;
-        height: 25px;
-        padding: 10px;
-        height: 35px;
-    }
-}
+
 /* ends items responsive*/
 
 @media screen and (max-width:837px){
@@ -383,28 +242,7 @@ textarea {
     }
 }
 /* app items responsive*/
-@media screen and (max-width:550px){
-    .container-add-items {
-        width: 98%;
-    }
-}
-/* app items responsive*/
-@media screen and (max-width:355px){
-    .container-add-items header {
-        height: 100px;
-    }
-    .container-add-items header button {
-        width: 70px;
-        margin-left: 6px;
-    }
-    .button-div-close button {
-        width: 75px;
-        bottom: -1px;
-        right: 10px;
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-}
+
 /* ends items responsive*/
 /* responsive win loading */
 @media screen and (max-width:320px){

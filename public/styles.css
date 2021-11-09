@@ -55,6 +55,9 @@ textarea {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+.data-container-1 div:last-child{
+    text-align: center;
+}
 .input-disable {
     background-color: white;
 }
@@ -106,7 +109,79 @@ textarea {
     font-size: 18px;
     border-radius: 5px;
 }
+.container-add-items {
+    background-color: white;
+    width: 90%;
+    height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    min-width: 225px;
+    padding-bottom: 10px;
+}
+.container-add-items input {
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+}
+.container-add-items {
+    text-align: center;
 
+}
+.container-add-items button:nth-of-type(1), .container-add-items button:nth-of-type(2) {
+    width: 80px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    background-color: rgb(30, 219, 5);
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    padding: 6px;
+    display: inline-block;
+    cursor: pointer;
+}
+.container-add-items button:nth-of-type(1) {
+    margin-right: 10px;
+}
+.container-add-items input {
+    height: 22px;
+    font-size: 15px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+.container-table {
+    width: 98%;
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    height: 75%;
+    margin-top: 10px;
+}
+.container-add-items table {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+.container-add-items table th, td, tr {
+    border:1px solid #ddd;
+}
+.container-add-items th {
+    color: white;
+    background-color: #00adef;
+}
+.container-add-items td {
+    text-align: center;
+}
 /* panel modal window*/
 .panel-window {
     width: 100%;
@@ -182,6 +257,13 @@ textarea {
         padding-bottom: 5px;
     }
 }
+/*panel window add item responsive*/
+@media screen and (max-width:600px){
+    .container-add-items {
+        width: 98%;
+    }
+}
+/*ends panel window add item responsive*/
 /* ends items responsive*/
 @media screen and (max-width:590px) {
     .data-container-1 {
@@ -241,6 +323,7 @@ textarea {
         width: 90%;
     }
 }
+
 /* app items responsive*/
 
 /* ends items responsive*/
@@ -284,4 +367,27 @@ textarea {
     .data-container-5 textarea {
         width: 80%;
     }
+}
+.container-notification {
+    width: 98%;
+    height: 50px;
+    position: absolute;
+    top:0px;
+    left: 1%;
+    z-index: 100;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    transform: translateY(-100%);
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+.container-notification-animation {
+    transition: .5s linear;
+    transform: translateY(5%);
+}
+.container-notification-animation-up {
+    transition: .5s linear;
+    transform: translateY(-100%);
 }

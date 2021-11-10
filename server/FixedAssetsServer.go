@@ -37,6 +37,12 @@ type dataNewRequest struct {
 	Reason      string
 	Description string
 }
+type newRegistryUserData struct {
+	Name         string
+	Email        string
+	Password     string
+	IDAuthorized string
+}
 
 const (
 	username = "assetsUser"
@@ -207,6 +213,20 @@ func insertRegistryRequestAsset(r *http.Request) string {
 	go SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
 	return "Proceso exitoso, se notificará en breve al administrador"
 }
+
+// registry of new users
+func newReigstryUser(r *http.Request) {
+	bodyRequest, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error reading the body in registry user " + err.Error())
+	}
+	var dataBody newRegistryUserData
+
+	if err = json.Unmarshal(bodyRequest, &dataBody); err != nil {
+		fmt.Println("Error unmarshalling the body in registry data " + err.Error())
+	}
+	fmt.Println(dataBody)
+}
 func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
 	state := insertRegistryRequestAsset(r)
 	success := stateSuccess{State: state}
@@ -220,6 +240,10 @@ func accountUser(w http.ResponseWriter, r *http.Request) {
 	accountPage := template.Must(template.ParseFiles("../users/app.html"))
 	accountPage.Execute(w, nil)
 }
+func accessToLogin(w http.ResponseWriter, r *http.Request) {
+	login := template.Must(template.ParseFiles("../users/registryUser.html"))
+	login.Execute(w, nil)
+}
 func specialistsAreas(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, getSpecialistsAreasCampus())
 }
@@ -229,6 +253,9 @@ func mainAreas(w http.ResponseWriter, r *http.Request) {
 func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, getReasonChange())
 }
+func registryUser(w http.ResponseWriter, r *http.Request) {
+	newReigstryUser(r)
+}
 func main() {
 	publicSpace := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", publicSpace))
@@ -237,5 +264,7 @@ func main() {
 	http.HandleFunc("/specialists-areas", specialistsAreas)
 	http.HandleFunc("/main-areas", mainAreas)
 	http.HandleFunc("/reason-change", reasonWhyChange)
+	http.HandleFunc("/registry", registryUser)
+	http.HandleFunc("/new-user", accessToLogin)
 	http.ListenAndServe(":5200", nil)
 }

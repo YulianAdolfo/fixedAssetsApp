@@ -7,12 +7,36 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="" class="login-form-styles">
+    <form action="#" class="login-form-styles">
         <input type="text" name="txt-box-user" id="txt-box-user" placeholder="Ingrese su usuario">
         <input type="password" name="txt-box-password" id="txt-box-password" placeholder="Ingrese su contrasaeña">
         <span>¿Olvidó su contraseña? de clic <a href="./recoveryPassword.html">aquí</a></span>
         <span>¿No tiene cuenta? regístrese <a href="./registryUser.html">aquí</a></span>
         <button>Ingresar</button>
     </form>
+    <script>
+        var button = document.querySelector("button")
+        button.onclick = (e) => accessToAccount(e)
+        async function accessToAccount(e) {
+            e.preventDefault()
+            var loginData = {
+                User: document.getElementById("txt-box-user").value,
+                Password : document.getElementById("txt-box-password").value
+            }
+            var state = await new Promise((resolved, rejected) => {
+                fetch("http://192.168.1.18:5200/verify", {
+                    method: "POST",
+                    headers: {
+                        "content-type":"application/json"
+                    },
+                    body: JSON.stringify(loginData)
+                })
+                .then(json => json.json())
+                .then(access => resolved(access))
+                .catch(error => rejected(error))
+            })
+            console.log(state)
+        }
+    </script>
 </body>
 </html>

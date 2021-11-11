@@ -43,6 +43,11 @@ type newRegistryUserData struct {
 	Password     string
 	IDAuthorized string
 }
+type dataForLogin struct {
+	User     string
+	Password string
+	ID       int
+}
 
 const (
 	username = "assetsUser"
@@ -278,6 +283,32 @@ func newReigstryUser(r *http.Request) string {
 		return failProcess()
 	}
 }
+func loginUser(r *http.Request) int {
+	dataLogin, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println("Error reading the body: " + err.Error())
+	}
+	databaseConnection := connectToData()
+	// converting to json
+	var dataLg dataForLogin
+	err = json.Unmarshal(dataLogin, &dataLg)
+	if err != nil {
+		fmt.Println("Error unmarshalling the data:" + err.Error())
+	}
+	// query to verify
+	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + dataLg.User + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + dataLg.Password + "'"
+	existUser, err := databaseConnection.Query(query)
+	if err != nil {
+		fmt.Println("Error quering the login user: " + err.Error())
+	}
+	for existUser.Next() {
+		err = existUser.Scan(&dataLg.ID)
+		if err != nil {
+			fmt.Println("Error scanning the user data: " + err.Error())
+		}
+	}
+	return dataLg.ID
+}
 func successProcess() string {
 	var successfull stateSuccess
 	successfull.State = "success"
@@ -299,12 +330,19 @@ func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprint(w, string(toJson))
 }
+func accessingToAccount(w http.ResponseWriter, r *http.Request) {
+	if loginUser(r) != 0 {
+		http.RedirectHandler("/accout-new-request", 301)
+	} else {
+		fmt.Fprintf(w, failProcess())
+	}
+}
 func accountUser(w http.ResponseWriter, r *http.Request) {
 	accountPage := template.Must(template.ParseFiles("../users/app.html"))
 	accountPage.Execute(w, nil)
 }
 func accessToLogin(w http.ResponseWriter, r *http.Request) {
-	login := template.Must(template.ParseFiles("../users/registryUser.html"))
+	login := template.Must(template.ParseFiles("../users/login.html"))
 	login.Execute(w, nil)
 }
 func specialistsAreas(w http.ResponseWriter, r *http.Request) {
@@ -329,5 +367,7 @@ func main() {
 	http.HandleFunc("/reason-change", reasonWhyChange)
 	http.HandleFunc("/registry", registryUser)
 	http.HandleFunc("/new-user", accessToLogin)
+	http.HandleFunc("/verify", accessingToAccount)
+	http.HandleFunc("/login-user", accessToLogin)
 	http.ListenAndServe(":5200", nil)
 }

@@ -211,21 +211,84 @@ func insertRegistryRequestAsset(r *http.Request) string {
 	3- Data for administrators
 	*/
 	go SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
-	return "Proceso exitoso, se notificará en breve al administrador"
+	return successProcess()
+}
+func getAuthorizedUser() string {
+	type authorizedCode struct {
+		authorizedCode string
+	}
+	var data authorizedCode
+	databaseConnection := connectToData()
+	query, err := databaseConnection.Query("SELECT authorizedCode from authorizeduser")
+	if err != nil {
+		fmt.Println("Error selecting authorized code: " + err.Error())
+	}
+	for query.Next() {
+		if err = query.Scan(&data.authorizedCode); err != nil {
+			fmt.Println("Error scanning the authorizedCode: " + err.Error())
+		}
+	}
+	defer databaseConnection.Close()
+	defer query.Close()
+	return data.authorizedCode
 }
 
 // registry of new users
-func newReigstryUser(r *http.Request) {
+func newReigstryUser(r *http.Request) string {
+	// extracting the data of body
 	bodyRequest, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println("Error reading the body in registry user " + err.Error())
 	}
 	var dataBody newRegistryUserData
-
-	if err = json.Unmarshal(bodyRequest, &dataBody); err != nil {
-		fmt.Println("Error unmarshalling the body in registry data " + err.Error())
+	err = json.Unmarshal(bodyRequest, &dataBody)
+	if err != nil {
+		fmt.Println("Error " + err.Error())
 	}
-	fmt.Println(dataBody)
+	if getAuthorizedUser() == dataBody.IDAuthorized {
+		// connecting to database
+		databaseConnection := connectToData()
+		query := "INSERT INTO fa_users (NAME, PASSWORD, EMAIL) VALUES (?,?,?)"
+		contextQuery, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		// preparing the query
+		preparingQuery, err := databaseConnection.PrepareContext(contextQuery, query)
+		if err != nil {
+			fmt.Println("Error preparing the query: " + err.Error())
+		}
+		resultQuery, err := preparingQuery.ExecContext(contextQuery, dataBody.Name, dataBody.Password, dataBody.Email)
+		if err != nil {
+			fmt.Println("Error excecuting the query: " + err.Error())
+		}
+		if ID, err := resultQuery.LastInsertId(); err != nil {
+			fmt.Println("Error getting the last ID: " + err.Error())
+		} else {
+			// encrypting the password using AES_ENCRYPTION
+			query = "UPDATE fa_users SET PASSWORD = AES_ENCRYPT(?,?)"
+			preparingQuery, err = databaseConnection.Prepare(query)
+			if err != nil {
+				fmt.Println("Error preparing the query: " + err.Error())
+			}
+			preparingQuery.Exec(dataBody.Password, ID)
+		}
+		defer preparingQuery.Close()
+		defer databaseConnection.Close()
+		return successProcess()
+	} else {
+		return failProcess()
+	}
+}
+func successProcess() string {
+	var successfull stateSuccess
+	successfull.State = "success"
+	dataReturn, _ := json.Marshal(successfull)
+	return string(dataReturn)
+}
+func failProcess() string {
+	var successfull stateSuccess
+	successfull.State = "fail"
+	dataReturn, _ := json.Marshal(successfull)
+	return string(dataReturn)
 }
 func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
 	state := insertRegistryRequestAsset(r)
@@ -254,7 +317,7 @@ func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, getReasonChange())
 }
 func registryUser(w http.ResponseWriter, r *http.Request) {
-	newReigstryUser(r)
+	fmt.Fprintf(w, newReigstryUser(r))
 }
 func main() {
 	publicSpace := http.FileServer(http.Dir("../public"))

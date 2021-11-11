@@ -1,4 +1,3 @@
-import { ADDRESS_SERVER } from "./javascript"
 var buttonSendRegistry = document.querySelector('button')
 var boxUser = document.getElementById("txt-reg-user")
 var boxMail = document.getElementById("txt-reg-email")
@@ -7,27 +6,25 @@ var authorizedID = document.getElementById("id-authorized")
 var password = document.getElementById("user-pass")
 var rePassword = document.getElementById("redigit-password")
 
-console.log(buttonSendRegistry)
-console.log(ADDRESS_SERVER)
-
 buttonSendRegistry.addEventListener("click", (e)=> {
     e.preventDefault()
     async function sendDataForRegistry() {
         var dataForFetch = {
-            name : boxUser.value,
-            email : boxMail.value,
-            password : password.value,
-            IDAuthorized : authorizedID.value
+            "Name": boxUser.value,
+            "Email" : boxMail.value,
+            "Password" : password.value,
+            "IDAuthorized" : authorizedID.value
         }
-        var state = await RegistryData(dataForFetch)
+        var data = JSON.stringify(dataForFetch)
+        var state = await RegistryData(data)
         console.log(state)
     }
     function RegistryData(data) {
         return new Promise((resolved, rejected)=>{
-            fetch(ADDRESS_SERVER + "/registry", {
+            fetch("http://192.168.1.18:5200/registry", {
                 method:"POST",
-                headers: {
-                    "content-type":"text/plain"
+                header: {
+                    "content-type":"application/json"
                 },
                 body: data
             })

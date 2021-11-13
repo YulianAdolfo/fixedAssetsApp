@@ -1,0 +1,207 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #00adef;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #021B79, #00adef);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #021B79, #00adef); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+* {
+    font-family: 'DM Sans', sans-serif;
+}
+.panel-image-app {
+    width: 30%;
+}
+.panel-image-app div {
+    background-image: url('../public/Images/left-image-panel.jpg');
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.form-app {
+    width: 70%;
+    position: relative;
+}
+.form-app form .header {
+    width:92%;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+.image-header {
+    width: 20%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image-header div {
+    width: 95%;
+    height: 95%;
+    background-image: url('../public/Images/Logo\ IPS\ blanco.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.title {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 30px;
+}
+.title::before {
+    content: 'Control institucional de activos fijos';
+}
+.image-header, .title {
+    float: left;
+}
+.form-app form {
+    width: 95%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.form-app form input{
+    width:90%;
+    font-size: 15px;
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+.form-app input[type="submit"] {
+    width: 400px;
+    font-size: 18px;
+    border: none;
+    outline:none;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: rgb(30, 219, 5);
+    color: white;
+    height: 35px;
+    margin-top: 20px;
+}
+.form-app span {
+    display: block;
+    width: 80%;
+    margin-left: 40px;
+    margin-top: 5px;
+    color: #ddd;
+    font-size: 16px;
+}
+.form-app a {
+    color: white;
+}
+.form-app, .panel-image-app {
+    height: 100vh;
+    float: left;
+}
+.message {
+    width: 92%;
+    background-color: red;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+.message h3 {
+    margin:0;
+}
+
+@media screen and (max-width:1060px){
+    .panel-image-app {
+        width: 20%;
+        background-position: center;
+    }
+    .form-app {
+        width: 80%;
+        position: relative;
+    }
+}
+@media screen and (max-width:900px){
+    .panel-image-app, .form-app {
+        float: none;
+        display: block;
+    }
+    .panel-image-app {
+        width: 0;
+        height: 0;
+    }
+    .form-app {
+        margin: 0 auto;
+        width: 95%;
+    }
+}
+@media screen and (max-width:780px){
+    .form-app {
+        margin: 0 auto;
+        width: 100%;
+    }
+    .form-app form .header .title {
+        font-size: 22px;
+    }
+}
+@media screen and (max-width:780px){
+    .form-app form .header {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: block;
+        margin: 0;
+        padding-bottom: 10px;
+    }
+    .image-header, .title {
+        float: none;
+        width: 100%;
+        margin: 0;
+    }
+    .image-header {
+        height: 150px;
+    }
+    .title {
+        margin-top: 40px;
+    }
+    .form-app form {
+        position: relative;
+    }
+    .form-app form input{
+        width: 95%;
+    }
+    .form-app form span {
+        margin-left: 10px;
+    }
+}
+@media screen and (max-width:440px){
+    .form-app input[type="submit"] {
+        margin-top: 40px;
+        width: 95%;
+        height: 40px;
+    }   
+    .form-app form .header {
+        margin-bottom: 30px;
+    }
+}
+@media screen and (max-width:400px){
+    .form-app form .header .title{
+        padding-left: 5px;
+        padding-right: 5px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+}

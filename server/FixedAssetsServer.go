@@ -11,6 +11,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/sessions"
 )
 
 type places struct {
@@ -56,6 +57,11 @@ const (
 	connPort = "3306"
 	hostname = "127.0.0.1"
 	dbname   = "fixed_assets"
+)
+
+var (
+	loginKeySecret      = []byte("authorized-user-to-access")
+	storeLoginKeySecret = sessions.NewCookieStore(loginKeySecret)
 )
 
 // connectin to database
@@ -284,29 +290,25 @@ func newReigstryUser(r *http.Request) string {
 	}
 }
 func loginUser(r *http.Request) int {
-	dataLogin, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Println("Error reading the body: " + err.Error())
-	}
+	r.ParseForm()
+	user := r.FormValue("txt-box-user")
+	passwordUser := r.FormValue("txt-box-password")
+	// connecting to databaase
 	databaseConnection := connectToData()
-	// converting to json
-	var dataLg dataForLogin
-	err = json.Unmarshal(dataLogin, &dataLg)
-	if err != nil {
-		fmt.Println("Error unmarshalling the data:" + err.Error())
-	}
 	// query to verify
-	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + dataLg.User + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + dataLg.Password + "'"
+	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + user + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + passwordUser + "'"
 	existUser, err := databaseConnection.Query(query)
 	if err != nil {
 		fmt.Println("Error quering the login user: " + err.Error())
 	}
+	var dataLg dataForLogin
 	for existUser.Next() {
 		err = existUser.Scan(&dataLg.ID)
 		if err != nil {
 			fmt.Println("Error scanning the user data: " + err.Error())
 		}
 	}
+	defer databaseConnection.Close()
 	return dataLg.ID
 }
 func successProcess() string {
@@ -331,19 +333,58 @@ func receiveNewRequest(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(toJson))
 }
 func accessingToAccount(w http.ResponseWriter, r *http.Request) {
-	if loginUser(r) != 0 {
-		http.RedirectHandler("/accout-new-request", 301)
-	} else {
-		fmt.Fprintf(w, failProcess())
+	// getting the cookie from the user
+	sessionFromUser, err := storeLoginKeySecret.Get(r, "authorized-access")
+	if err != nil {
+		fmt.Println("Error getting the cookie: " + err.Error())
 	}
+	// verifying if the user has an account to access
+	stateFoundUser := loginUser(r)
+	if stateFoundUser != 0 {
+		// if the user exists so, set authenticated-user state true and finally save it
+		sessionFromUser.Values["authenticated-user"] = true
+		sessionFromUser.Save(r, w)
+		http.Redirect(w, r, "/account-new-request", http.StatusFound)
+		return
+	}
+	failLogin := struct {
+		Message string
+	}{
+		Message: "Credenciales incorrectas o usuario inexistente",
+	}
+	login := getLoginPage()
+	login.Execute(w, &failLogin)
+
 }
 func accountUser(w http.ResponseWriter, r *http.Request) {
+	sessionFromUser, err := storeLoginKeySecret.Get(r, "authorized-access")
+	if err != nil {
+		fmt.Println("Error getting the cookie: " + err.Error())
+	}
+	// checking if the user has been authenticated
+	authorizeToSee, okToSee := sessionFromUser.Values["authenticated-user"].(bool)
+	if !authorizeToSee || !okToSee {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
 	accountPage := template.Must(template.ParseFiles("../users/app.html"))
 	accountPage.Execute(w, nil)
 }
 func accessToLogin(w http.ResponseWriter, r *http.Request) {
-	login := template.Must(template.ParseFiles("../users/login.html"))
+	login := getLoginPage()
 	login.Execute(w, nil)
+}
+func getLoginPage() *template.Template {
+	return template.Must(template.ParseFiles("../users/login.html"))
+}
+func logOutAccount(w http.ResponseWriter, r *http.Request) {
+	sessionFromUser, err := storeLoginKeySecret.Get(r, "authorized-access")
+	if err != nil {
+		fmt.Println("Error getting the cookie: " + err.Error())
+	}
+	sessionFromUser.Values["authenticated-user"] = false
+	sessionFromUser.Save(r, w)
+	http.Redirect(w, r, "/login-user", http.StatusFound)
 }
 func specialistsAreas(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, getSpecialistsAreasCampus())
@@ -367,7 +408,8 @@ func main() {
 	http.HandleFunc("/reason-change", reasonWhyChange)
 	http.HandleFunc("/registry", registryUser)
 	http.HandleFunc("/new-user", accessToLogin)
-	http.HandleFunc("/verify", accessingToAccount)
+	http.HandleFunc("/account", accessingToAccount)
 	http.HandleFunc("/login-user", accessToLogin)
+	http.HandleFunc("/login-out", logOutAccount)
 	http.ListenAndServe(":5200", nil)
 }

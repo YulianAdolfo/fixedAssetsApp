@@ -93,13 +93,17 @@ background: linear-gradient(to right, #021B79, #00adef); /* W3C, IE 10+/ Edge, F
     background-color: rgb(30, 219, 5);
     color: white;
     height: 35px;
-    margin-top: 20px;
+    margin-top: 30px;
+}
+.form-app input[type="submit"]:hover {
+    background-color: rgb(26, 194, 3);
+    transition: .1s;
 }
 .form-app span {
     display: block;
     width: 80%;
     margin-left: 40px;
-    margin-top: 5px;
+    margin-top: 20px;
     color: #ddd;
     font-size: 16px;
 }
@@ -203,5 +207,17 @@ background: linear-gradient(to right, #021B79, #00adef); /* W3C, IE 10+/ Edge, F
         padding-right: 5px;
         box-sizing: border-box;
         text-align: center;
+    }
+}
+.emptyFields {
+    animation-name: empty;
+    animation-duration: 1s;
+    border: 1px solid red;
+}
+@keyframes empty {
+    0%{
+        background-color:rgba(255, 23, 23, .8);
+    }100%{
+        background-color: none;
     }
 }

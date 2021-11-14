@@ -6,7 +6,7 @@ var authorizedID = document.getElementById("id-authorized")
 var password = document.getElementById("user-pass")
 var rePassword = document.getElementById("redigit-password")
 
-// verify if the email is registered yet
+// verify if the email or username are registered yet
 function verifyBasicData(box, url) {
     var boxValue = box.value.trim()
     box.disabled = true
@@ -101,13 +101,16 @@ buttonSendRegistry.addEventListener("click", (e) => {
         }, 500);
     }
     async function sendDataForRegistry() {
+        // first verify if the user exists
         var checkUserName = await verifyBasicData(boxUser, "verify-user-user-name")
+        // second verify if the email exists
         var checkEmail = null
         if (!checkNotEmail.checked) {
             checkEmail = await verifyBasicData(boxMail, "verify-user-email")
         }
         boxUser.disabled = false
         boxMail.disabled = false
+        // if the email and the user has not been registered yet
         if (checkUserName.State == "success" || !checkNotEmail.checked && checkEmail.State == "success") {
             var dataForFetch = { 
                 "Name": boxUser.value,
@@ -115,8 +118,11 @@ buttonSendRegistry.addEventListener("click", (e) => {
                 "Password": password.value,
                 "IDAuthorized": authorizedID.value
             }
+            // set window loading
             onprogressFunction(panel_window())
+            // convert to json the data 
             var data = JSON.stringify(dataForFetch)
+            // calling the function to send data 
             var state = await RegistryData(data)
             removeLastElementApp()
             // return to empty fields
@@ -202,79 +208,6 @@ function onprogressFunction(onprogressWin) {
     progressPanel.appendChild(progressIcon)
     progressPanel.appendChild(progressMessage)
     onprogressWin.appendChild(progressPanel)
-
-}
-function createAlertToUser(warning, content) {
-    let alert = document.createElement("div")
-    let iconX = document.createElement("i")
-    let color = null
-    alert.style.width = "350px"
-    alert.style.height = "100px"
-    alert.style.position = "absolute"
-    alert.style.right = "20px"
-    alert.style.bottom = "10px"
-    alert.style.borderRadius = "10px"
-    alert.style.color = "white"
-    alert.style.fontSize = "18px"
-    alert.style.display = "flex"
-    alert.style.justifyContent = "center"
-    alert.style.alignItems = "center"
-    alert.style.textAlign = "center"
-    alert.style.paddingLeft = "8px"
-    alert.style.paddingRight = "8px"
-    alert.style.transform = "translateX(110%)"
-
-    iconX.classList.add("fas", "fa-times")
-    iconX.style.position = "absolute"
-    iconX.style.right = "6px"
-    iconX.style.top = "5px"
-    iconX.style.color = "white"
-    iconX.style.fontSize = "15px"
-    switch (warning) {
-        case "ERROR":
-            color = "red"
-            break;
-        case "empty":
-            color = "orange"
-            break;
-        case "successfull":
-            color = "rgba(0, 207, 35, 0.924)"
-            break;
-    }
-    alert.style.backgroundColor = color
-    alert.appendChild(iconX)
-    alert.innerHTML += content
-    document.body.appendChild(alert)
-    iconX.onclick = () => {
-        document.body.removeChild(alert)
-    }
-    setTimeout(() => {
-        alert.style.transition = ".8s"
-        alert.style.transform = "translateX(0%)"
-        setTimeout(() => {
-            alert.style.transition = ".8s"
-            alert.style.transform = "translateX(110%)"
-            setTimeout(() => {
-                document.body.removeChild(alert)
-            }, 3000);
-        }, 3000);
-    }, 300);
-}
-function retrievingDataProgress() {
-    var rtvData = panel_window()
-    var h3 = document.createElement("h3")
-    //rtvData.style.backgroundColor = "rgba(0, 0,0 , .8)"
-    rtvData.style.display = "flex"
-    rtvData.style.justifyContent = "center"
-    rtvData.style.alignItems = "center"
-    h3.innerHTML = "Recuperando datos, por favor espere..."
-    h3.style.backgroundColor = "rgb(30, 219, 5)"
-    h3.style.padding = "10px"
-    h3.style.borderRadius = "5px"
-    h3.style.color = "white"
-    h3.style.boxShadow = "-1px 1px 5px .5px white"
-    h3.style.fontSize = "15px"
-    rtvData.appendChild(h3)
 
 }
 function notificationApp(messageA = undefined, state, iconPath = null) {

@@ -370,6 +370,10 @@ func accountUser(w http.ResponseWriter, r *http.Request) {
 	accountPage := template.Must(template.ParseFiles("../users/app.html"))
 	accountPage.Execute(w, nil)
 }
+func registryForm(w http.ResponseWriter, r *http.Request) {
+	accountPage := template.Must(template.ParseFiles("../users/registryUser.html"))
+	accountPage.Execute(w, nil)
+}
 func accessToLogin(w http.ResponseWriter, r *http.Request) {
 	login := getLoginPage()
 	login.Execute(w, nil)
@@ -407,9 +411,10 @@ func main() {
 	http.HandleFunc("/main-areas", mainAreas)
 	http.HandleFunc("/reason-change", reasonWhyChange)
 	http.HandleFunc("/registry", registryUser)
-	http.HandleFunc("/new-user", accessToLogin)
+	http.HandleFunc("/login", accessToLogin)
 	http.HandleFunc("/account", accessingToAccount)
 	http.HandleFunc("/login-user", accessToLogin)
 	http.HandleFunc("/login-out", logOutAccount)
+	http.HandleFunc("/registry-user-form", registryForm)
 	http.ListenAndServe(":5200", nil)
 }

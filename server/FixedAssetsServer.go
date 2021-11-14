@@ -402,6 +402,12 @@ func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 func registryUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, newReigstryUser(r))
 }
+func checkEmail(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, successProcess())
+}
+func checkUserName(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, successProcess())
+}
 func main() {
 	publicSpace := http.FileServer(http.Dir("../public"))
 	http.Handle("/public/", http.StripPrefix("/public/", publicSpace))
@@ -416,5 +422,7 @@ func main() {
 	http.HandleFunc("/login-user", accessToLogin)
 	http.HandleFunc("/login-out", logOutAccount)
 	http.HandleFunc("/registry-user-form", registryForm)
+	http.HandleFunc("/verify-user-email", checkEmail)
+	http.HandleFunc("/verify-user-user-name", checkUserName)
 	http.ListenAndServe(":5200", nil)
 }

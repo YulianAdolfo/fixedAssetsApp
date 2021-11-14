@@ -105,6 +105,7 @@ background: linear-gradient(to right, #021B79, #00adef); /* W3C, IE 10+/ Edge, F
     display: block;
     margin-left: 40px;
     margin-top: 10px;
+    color: #ddd;
 }
 .form-app input[type="checkbox"] {
     margin-left: 40px;
@@ -244,7 +245,6 @@ background: linear-gradient(to right, #021B79, #00adef); /* W3C, IE 10+/ Edge, F
 .emptyFields {
     animation-name: empty;
     animation-duration: 1s;
-    border: 1px solid red;
 }
 @keyframes empty {
     0%{

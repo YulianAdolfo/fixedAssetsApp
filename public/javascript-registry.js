@@ -80,23 +80,6 @@ buttonSendRegistry.addEventListener("click", (e) => {
         unfillField2()
         deleteClass()
     }
-    function unfillField() {
-        if (boxUser.value == "" && authorizedID.value == "" && password.value == "" && rePassword.value == "") {
-            if (!checkNotEmail.checked) {
-                if (boxMail.value == "") {
-                    boxMail.classList.add("emptyFields")
-                }
-            }
-            boxUser.classList.add("emptyFields")
-            authorizedID.classList.add("emptyFields")
-            password.classList.add("emptyFields")
-            rePassword.classList.add("emptyFields")
-            deleteClass()
-        } else {
-            unfillField2()
-            deleteClass()
-        }
-    }
     function unfillField2() {
         console.log("adsfkjsdf")
         var boxes = [boxUser, boxMail, authorizedID, password, rePassword]

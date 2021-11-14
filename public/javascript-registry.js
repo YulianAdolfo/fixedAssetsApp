@@ -6,11 +6,29 @@ var authorizedID = document.getElementById("id-authorized")
 var password = document.getElementById("user-pass")
 var rePassword = document.getElementById("redigit-password")
 
+// verify if the email is registered yet
+function verifyBasicData(box, url) {
+    var boxValue = box.value.trim()
+    box.disabled = true
+    return new Promise((resolved, rejected) => {
+        fetch("/" + url + "?string=" + boxValue, {
+            method: "get",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+            .then(email => email.json())
+            .then(existEmail => resolved(existEmail))
+            .catch(error => rejected(error))
+    })
+}
+
 checkNotEmail.onchange = () => {
     if (checkNotEmail.checked) {
         boxMail.disabled = true
         boxMail.style.backgroundColor = "#ddd"
         boxMail.value = ""
+        alert("Sin un correo electrónico válido NO podrás recuperar tu cuenta si olvidas tu contraseña y tendrás que memorizar tu nombre de usuario para poder acceder al aplicativo")
     } else {
         boxMail.disabled = false
         boxMail.style.backgroundColor = "white"
@@ -20,19 +38,18 @@ checkNotEmail.onchange = () => {
 buttonSendRegistry.addEventListener("click", (e) => {
     e.preventDefault()
     if (boxUser.value != "" && authorizedID.value != "" && password.value != "" && rePassword.value != "") {
-        if(!checkNotEmail.checked && boxMail.value !="" || checkNotEmail.checked) {
-            var boxes = [boxUser, boxMail, authorizedID, password, rePassword]
+        if (!checkNotEmail.checked && boxMail.value != "" || checkNotEmail.checked) {
             var messageToUser = ""
-            for(var i =0; i< boxes.length-1; i++) {
-                switch(i) {
+            for (var i = 0; i < 5; i++) {
+                switch (i) {
                     case 0:
-                        if(boxes[i].value.length < 5){messageToUser += "Nombre demasiado corto, debe tener al menos 5 caracteres\n"}
-                    break;
-                    case 1: 
-                        if(!checkNotEmail.checked && boxMail.value.substring(0, boxMail.value.length-10).length < 5) {
+                        if (boxUser.value.length < 5) { messageToUser += "Nombre demasiado corto, debe tener al menos 5 caracteres\n" }
+                        break;
+                    case 1:
+                        if (!checkNotEmail.checked && boxMail.value.substring(0, boxMail.value.length - 10).length < 5) {
                             messageToUser += "Correo electrónico debe tener al menos 5 caracteres carácteres y debe ser '@gmail.com'\n"
-                        }else {
-                            if(!checkNotEmail.checked && !boxMail.value.includes("@gmail.com")) {
+                        } else {
+                            if (!checkNotEmail.checked && !boxMail.value.includes("@gmail.com")) {
                                 messageToUser += "El correo debe ser '@gmail.com'\n"
                             }
                         }
@@ -40,25 +57,28 @@ buttonSendRegistry.addEventListener("click", (e) => {
                     case 3:
                         if (password.value != rePassword.value) {
                             messageToUser += "Las contraseas no coinciden\n"
-                        }else {
-                            if(password.value.length < 5) {
+                        } else {
+                            if (password.value.length < 5) {
                                 messageToUser += "Contraseña demasiado corta, debe tener una longitud de al menos 5 caracteres"
                             }
                         }
                         break;
                 }
             }
-            if(messageToUser.length > 0 ){
+            // if there area errors, so show them in an alert
+            if (messageToUser.length > 0) {
                 alert(messageToUser)
-            }else {
+            } else {
+                // call function to prepare the data to send the request
                 sendDataForRegistry()
             }
-        }else {
+        } else {
             boxMail.classList.add("emptyFields")
             deleteClass()
         }
-    }else {
-        unfillField()
+    } else {
+        unfillField2()
+        deleteClass()
     }
     function unfillField() {
         if (boxUser.value == "" && authorizedID.value == "" && password.value == "" && rePassword.value == "") {
@@ -78,10 +98,11 @@ buttonSendRegistry.addEventListener("click", (e) => {
         }
     }
     function unfillField2() {
+        console.log("adsfkjsdf")
         var boxes = [boxUser, boxMail, authorizedID, password, rePassword]
-        boxes.forEach (box =>{
-            if(box.value == "")  {
-                if(!box.disabled) {
+        boxes.forEach(box => {
+            if (box.value == "") {
+                if (!box.disabled) {
                     box.classList.add("emptyFields")
                 }
             }
@@ -97,31 +118,46 @@ buttonSendRegistry.addEventListener("click", (e) => {
         }, 500);
     }
     async function sendDataForRegistry() {
-        var dataForFetch = {
-            "Name": boxUser.value,
-            "Email": boxMail.value,
-            "Password": password.value,
-            "IDAuthorized": authorizedID.value
+        var checkUserName = await verifyBasicData(boxUser, "verify-user-user-name")
+        var checkEmail = null
+        if (!checkNotEmail.checked) {
+            checkEmail = await verifyBasicData(boxMail, "verify-user-email")
         }
-        onprogressFunction(panel_window())
-        var data = JSON.stringify(dataForFetch)
-        var state = await RegistryData(data)
-        removeLastElementApp()
-        // return to empty fields
-        boxUser.value = ""
-        boxMail.value = ""
-        authorizedID.value = ""
-        password.value = ""
-        rePassword.value = ""
-        // go to top page
-        scrollingToTop()
-        if(state.State == "success") {
-            notificationApp("Registro exitoso", state.State, "../public/Images/successfull.png")
-            setTimeout(() => {
-                location.href = "/login"
-            }, 1600);
+        boxUser.disabled = false
+        boxMail.disabled = false
+        if (checkUserName.State == "success" || !checkNotEmail.checked && checkEmail.State == "success") {
+            var dataForFetch = { 
+                "Name": boxUser.value,
+                "Email": boxMail.value,
+                "Password": password.value,
+                "IDAuthorized": authorizedID.value
+            }
+            onprogressFunction(panel_window())
+            var data = JSON.stringify(dataForFetch)
+            var state = await RegistryData(data)
+            removeLastElementApp()
+            // return to empty fields
+            boxUser.value = ""
+            boxMail.value = ""
+            authorizedID.value = ""
+            password.value = ""
+            rePassword.value = ""
+            // go to top page
+            scrollingToTop()
+            if (state.State == "success") {
+                notificationApp("Registro exitoso", state.State, "../public/Images/successfull.png")
+                setTimeout(() => {
+                    location.href = "/login"
+                }, 1600);
+            } else {
+                notificationApp("Registro no autorizado", "error", "../public/Images/err.png")
+            }
         }else {
-            notificationApp("Registro no autorizado", "error","../public/Images/err.png")
+            // if the username or email exists
+            scrollingToTop()
+            notificationApp("El usuario o correo ya está registrado", "empty", "../public/Images/err.png")
+            boxUser.value = ""
+            boxMail.value = ""
         }
     }
     function RegistryData(data) {
@@ -258,16 +294,16 @@ function retrievingDataProgress() {
     rtvData.appendChild(h3)
 
 }
-function notificationApp(messageA=undefined, state, iconPath=null) {
+function notificationApp(messageA = undefined, state, iconPath = null) {
     scrollingToTop()
     // structure of the notification
     let color = null
 
     if (state == "success") {
         color = "rgb(3, 223, 58)"
-    }else if (state == "error") {
+    } else if (state == "error") {
         color = "red"
-    }else {
+    } else {
         color = "rgb(253, 135, 0)"
     }
     console.log(color)
@@ -286,20 +322,20 @@ function notificationApp(messageA=undefined, state, iconPath=null) {
     containerNotify.classList.add("container-notification")
     document.body.appendChild(containerNotify)
 
-    
+
     setTimeout(() => {
         containerNotify.classList.add("container-notification-animation")
         setTimeout(() => {
-           containerNotify.classList.remove("container-notification-animation") 
-           containerNotify.classList.add("container-notification-animation-up")
-           setTimeout(() => {
-            removeLastElementApp()
-           }, 500);
+            containerNotify.classList.remove("container-notification-animation")
+            containerNotify.classList.add("container-notification-animation-up")
+            setTimeout(() => {
+                removeLastElementApp()
+            }, 500);
         }, 1600);
     }, 320);
 }
-function scrollingToTop(){
-    window.scroll({top:0, left:0, behavior:"smooth"})
+function scrollingToTop() {
+    window.scroll({ top: 0, left: 0, behavior: "smooth" })
 }
 function removeLastElementApp() {
     document.body.removeChild(document.body.lastChild)

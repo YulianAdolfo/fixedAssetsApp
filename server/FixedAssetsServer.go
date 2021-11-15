@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"text/template"
 	"time"
 
@@ -296,7 +297,7 @@ func loginUser(r *http.Request) int {
 	// connecting to databaase
 	databaseConnection := connectToData()
 	// query to verify
-	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + user + "'" + " OR EMAIL= " + "'" + user + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + passwordUser + "'"
+	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + user + "'" + " OR EMAIL = " + "'" + user + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + passwordUser + "'"
 	existUser, err := databaseConnection.Query(query)
 	if err != nil {
 		fmt.Println("Error quering the login user: " + err.Error())
@@ -363,7 +364,7 @@ func accessingToAccount(w http.ResponseWriter, r *http.Request) {
 		// if the user exists so, set authenticated-user state true and finally save it
 		sessionFromUser.Values["authenticated-user"] = true
 		sessionFromUser.Save(r, w)
-		http.Redirect(w, r, "/account-new-request", http.StatusFound)
+		http.Redirect(w, r, "/account-new-request?user="+r.FormValue("txt-box-user"), http.StatusFound)
 		return
 	}
 	failLogin := struct {
@@ -386,9 +387,30 @@ func accountUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+	var selectUserName string
+	selectUserName = r.URL.Query().Get("user")
+	// getting the user if the user has login with gmail
+	if strings.Contains(selectUserName, "@gmail.com") {
+		databaseConnection := connectToData()
+		query, err := databaseConnection.Query("SELECT NAME FROM fa_users WHERE EMAIL=" + "'" + selectUserName + "'")
+		if err != nil {
+			fmt.Println("Error in query getting username by email: " + err.Error())
+		}
+		var userName newRegistryUserData
+		for query.Next() {
+			err = query.Scan(&userName.Name)
+			if err != nil {
+				fmt.Println("Error scanning the name by email: " + err.Error())
+			}
+		}
+		selectUserName = userName.Name
+		defer query.Close()
+		defer databaseConnection.Close()
+	}
 	accountPage := template.Must(template.ParseFiles("../users/app.html"))
-	accountPage.Execute(w, nil)
+	accountPage.Execute(w, struct{ UserName string }{UserName: selectUserName})
 }
+
 func registryForm(w http.ResponseWriter, r *http.Request) {
 	accountPage := template.Must(template.ParseFiles("../users/registryUser.html"))
 	accountPage.Execute(w, nil)

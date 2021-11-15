@@ -111,7 +111,7 @@ buttonSendRegistry.addEventListener("click", (e) => {
         boxUser.disabled = false
         boxMail.disabled = false
         // if the email and the user has not been registered yet
-        if (checkUserName.State == "success" || !checkNotEmail.checked && checkEmail.State == "success") {
+        if (!checkUserName.State && !checkNotEmail.checked && !checkEmail.State || checkNotEmail.checked && !checkUserName.State) {
             var dataForFetch = { 
                 "Name": boxUser.value,
                 "Email": boxMail.value,

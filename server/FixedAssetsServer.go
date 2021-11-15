@@ -296,7 +296,7 @@ func loginUser(r *http.Request) int {
 	// connecting to databaase
 	databaseConnection := connectToData()
 	// query to verify
-	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + user + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + passwordUser + "'"
+	query := "SELECT ID FROM fa_users WHERE NAME = " + "'" + user + "'" + " OR EMAIL= " + "'" + user + "'" + " AND AES_DECRYPT(PASSWORD, ID) =" + "'" + passwordUser + "'"
 	existUser, err := databaseConnection.Query(query)
 	if err != nil {
 		fmt.Println("Error quering the login user: " + err.Error())

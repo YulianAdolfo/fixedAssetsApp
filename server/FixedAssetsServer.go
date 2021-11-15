@@ -311,6 +311,25 @@ func loginUser(r *http.Request) int {
 	defer databaseConnection.Close()
 	return dataLg.ID
 }
+
+// verifying if the user o email has already registered
+func checkingExistenceOfBasicData(fieldName, valueFieldName string) int {
+	databaseConnection := connectToData()
+	query := "SELECT ID FROM fa_users WHERE " + fieldName + "=" + "'" + valueFieldName + "'"
+	queryExec, err := databaseConnection.Query(query)
+	if err != nil {
+		fmt.Println("Error quering the username of database: " + err.Error())
+	}
+	var existsUser dataForLogin
+	for queryExec.Next() {
+		err = queryExec.Scan(&existsUser.ID)
+		if err != nil {
+			fmt.Println("Error reading the data of users existence: " + err.Error())
+		}
+	}
+	defer databaseConnection.Close()
+	return existsUser.ID
+}
 func successProcess() string {
 	var successfull stateSuccess
 	successfull.State = "success"
@@ -402,11 +421,37 @@ func reasonWhyChange(w http.ResponseWriter, r *http.Request) {
 func registryUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, newReigstryUser(r))
 }
+
+// checking if the email exists
 func checkEmail(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, successProcess())
+	IDUserEmail := checkingExistenceOfBasicData("EMAIL", r.URL.Query().Get("string"))
+	if IDUserEmail != 0 {
+		fmt.Fprintf(w, existenceUser())
+		return
+	}
+	fmt.Fprintf(w, failProcess())
 }
+func existenceUser() string {
+	StateOfExistance := struct {
+		State bool
+	}{
+		State: true,
+	}
+	stateEx, err := json.Marshal(StateOfExistance)
+	if err != nil {
+		fmt.Println("Error marsalling the state of existance: " + err.Error())
+	}
+	return string(stateEx)
+}
+
+// checking if the usename exists
 func checkUserName(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, successProcess())
+	IDUserName := checkingExistenceOfBasicData("NAME", r.URL.Query().Get("string"))
+	if IDUserName != 0 {
+		fmt.Fprintf(w, existenceUser())
+		return
+	}
+	fmt.Fprintf(w, failProcess())
 }
 func main() {
 	publicSpace := http.FileServer(http.Dir("../public"))

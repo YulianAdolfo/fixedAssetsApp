@@ -115,10 +115,10 @@ buttonSendRegistry.addEventListener("click", (e) => {
         // if the email and the user has not been registered yet
         if (checkUserName.State != true && !checkNotEmail.checked && checkEmail.State != true || checkNotEmail.checked && checkUserName.State != true) {
             var dataForFetch = { 
-                "Name": boxUser.value,
-                "Email": boxMail.value,
-                "Password": password.value,
-                "IDAuthorized": authorizedID.value
+                "Name": boxUser.value.trim(),
+                "Email": boxMail.value.trim(),
+                "Password": password.value.trim(),
+                "IDAuthorized": authorizedID.value.trim()
             }
             // set window loading
             onprogressFunction(panel_window())

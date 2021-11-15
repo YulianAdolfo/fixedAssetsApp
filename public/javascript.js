@@ -193,9 +193,9 @@ function data_for_request() {
     var descriptionWhy = document.getElementById("txt-area-description").value
     reason = reason.options[reason.selectedIndex].value
 
-    if (assetName != "" && brand != "" && model != "" && serial != "" && emitionCampus != "Seleccione una opción" &&
-        emitionPlace != "Seleccione una opción" && receptionCampus != "Seleccione una opción" &&
-        receptionPlace != "Seleccione una opción" && reason != "Seleccione una opción" && descriptionWhy != "") {
+    if (assetName != "" && brand != "" && model != "" && serial != "" && emitionCampus != "0" &&
+        emitionPlace != "0" && receptionCampus != "0" &&
+        receptionPlace != "0" && reason != "0" && descriptionWhy != "") {
         var toJsonData = {
             "Username": "Yulian Adolfo Rojas Gañan",
             "AssetName": assetName,
@@ -222,7 +222,7 @@ sendRequestButton.onclick = (e) => {
     let dataAsset = data_for_request()
     if (dataAsset != null) {
         console.log(dataAsset)
-        sendingData(dataAsset)
+        //sendingData(dataAsset)
     } else {
         notificationApp("Existen campos vacios, verifique", "empty")
     }

@@ -110,8 +110,10 @@ buttonSendRegistry.addEventListener("click", (e) => {
         }
         boxUser.disabled = false
         boxMail.disabled = false
+        console.log(checkUserName)
+        console.log(checkEmail)
         // if the email and the user has not been registered yet
-        if (!checkUserName.State && !checkNotEmail.checked && !checkEmail.State || checkNotEmail.checked && !checkUserName.State) {
+        if (checkUserName.State != true && !checkNotEmail.checked && checkEmail.State != true || checkNotEmail.checked && checkUserName.State != true) {
             var dataForFetch = { 
                 "Name": boxUser.value,
                 "Email": boxMail.value,

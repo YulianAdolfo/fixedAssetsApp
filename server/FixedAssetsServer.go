@@ -222,7 +222,7 @@ func insertRegistryRequestAsset(r *http.Request) string {
 	2- Message email
 	3- Data for administrators
 	*/
-	go SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "Prueba de envío -Golang", &dataForEmail)
+	go SendEmailToAdmin([]string{"yulianrojas2000@gmail.com"}, "SOLICITUD EQUIPO BIOMÉDICO: "+dataForInsert.AssetName, &dataForEmail)
 	return successProcess()
 }
 func getAuthorizedUser() string {

@@ -10,6 +10,7 @@ let addedItemsList = []
 let panel = null
 let modal = null
 const ADDRESS_SERVER = "http://192.168.1.18:5200/"
+const USER_NAME = document.getElementById("user-name-td").textContent
 addItems.onclick = () => {
     modal.style.display = "block"
 }
@@ -197,7 +198,7 @@ function data_for_request() {
         emitionPlace != "0" && receptionCampus != "0" &&
         receptionPlace != "0" && reason != "0" && descriptionWhy != "") {
         var toJsonData = {
-            "Username": "Yulian Adolfo Rojas Gañan",
+            "Username": USER_NAME,
             "AssetName": assetName,
             "Brand": brand,
             "Model": modal,
@@ -221,8 +222,7 @@ sendRequestButton.onclick = (e) => {
     e.preventDefault()
     let dataAsset = data_for_request()
     if (dataAsset != null) {
-        console.log(dataAsset)
-        //sendingData(dataAsset)
+        sendingData(dataAsset)
     } else {
         notificationApp("Existen campos vacios, verifique", "empty")
     }

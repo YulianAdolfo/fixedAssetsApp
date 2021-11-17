@@ -9,7 +9,7 @@ let selectReasonChange = document.getElementById("select-reason-asset")
 let addedItemsList = []
 let panel = null
 let modal = null
-const ADDRESS_SERVER = "http://192.168.1.18:5200/"
+const ADDRESS_SERVER = "http://172.16.0.59:5200/"
 const USER_NAME = document.getElementById("user-name-td").textContent
 addItems.onclick = () => {
     modal.style.display = "block"
@@ -21,7 +21,6 @@ selectCampusRecep.onchange = (e) => {
     dataFromAreasCampus(e.target.value, selectAreaRecep)
 }
 async function dataFromAreasCampus(campus, selectElement) {
-    console.log(campus)
     switch (campus) {
         case "0":
             removeItemsList(selectElement)
@@ -85,6 +84,7 @@ function create_modal_form(windowDiv) {
     let tr = document.createElement("tr")
     // creating table
     var tableAddedItem = document.createElement("table")
+    tableAddedItem.id = "table-of-items"
     for (var i = 0; i < 3; i++) {
         var th = document.createElement("th")
         if (i == 0) {
@@ -229,6 +229,7 @@ sendRequestButton.onclick = (e) => {
     async function sendingData(contentRequest) {
         onprogressFunction(panel_window())
         await sendRequestToServer(contentRequest)
+        returnToInitFields()
         removeLastElementApp()
         notificationApp("Exitoso", "successfull")
     }
@@ -380,8 +381,6 @@ function notificationApp(messageA=undefined, state) {
     }else {
         color = "rgb(253, 135, 0)"
     }
-    console.log(color)
-    console.log(state)
     var containerNotify = document.createElement("div")
     var message = document.createElement("p")
     var icon = document.createElement("img")
@@ -416,6 +415,23 @@ function activateOverFlowApp(state) {
 }
 function removeLastElementApp() {
     document.body.removeChild(document.body.lastChild)
+}
+function returnToInitFields() {
+    document.getElementById("asset-box").value = ""
+    document.getElementById("brand-box").value = ""
+    document.getElementById("model-box").value = ""
+    document.getElementById("serial-box").value = ""
+    document.getElementById("select-campus-asset").value = "0"
+    document.getElementById("select-area-campus-asset").value = "0"
+    document.getElementById("select-campus-asset-r").value = "0"
+    document.getElementById("select-area-campus-asset-r").value = "0"
+    document.getElementById("select-reason-asset").value = "0"
+    document.getElementById("txt-area-description").value = ""
+
+    var tableOfItems = document.getElementById("table-of-items")
+    while (tableOfItems.children.length > 1) {
+        tableOfItems.removeChild(tableOfItems.lastChild)
+    }
 }
 // it creates the modal just one time
 modal = create_modal_form(panel_window())

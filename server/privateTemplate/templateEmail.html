@@ -42,7 +42,7 @@
         text-align: center;
         font-size: 18px;
       }
-      button {
+      a {
         display: block;
         width: 50%;
         height: 30px;
@@ -52,10 +52,13 @@
         color: white;
         border: none;
         outline: none;
-        font-size: 16px;
+        font-size: 20px;
         height: 35px;
         border-radius: 5px;
         cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        padding-top: 10px;
       }
       .over-f {
         overflow-x: hidden;
@@ -111,7 +114,7 @@
         }
       }
       @media screen and (max-width: 650px) {
-        button {
+        a {
           width: 80%;
         }
       }
@@ -141,7 +144,7 @@
       }
       }
       @media screen and (max-width: 400px) {
-        button {
+        a {
           width: 98%;
         }
       }
@@ -190,12 +193,10 @@
       <tr>
         <th><h2>Descripción</h2></th>
         <td colspan="2">
-          <textarea name="" id="" cols="30" rows="10" disabled>
-            {{.Description}}
-          </textarea>
+          <textarea name="" id="" cols="30" rows="10" disabled>{{.Description}}</textarea>
         </td>
       </tr>
     </table>
-    <button onclick="alert('go to app!')">Ver más detalles</button>
+    <a href="http://172.16.0.59:5200/4dw1n15Tr4T0r" style="color:white;">Ver más detalles</a>
   </body>
 </html>

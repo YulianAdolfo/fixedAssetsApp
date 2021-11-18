@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./dashboard.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+        <div class="menu-bar"><i class="fas fa-bars"></i></div>
+        <div class="title-app"><h2>Dashboard de solicitudes</h2></div>
+    </header>
+    <div class="container-request-main">
+        
+        <table>
+            <tr>
+                <th>Detalles de solicitud</th>
+                <th>Fecha/Hora</th>
+                <th>Aceptar</th>
+                <th>Rechazar</th>
+            </tr>
+            <tr>
+                <td><a href="#" title="Clic para detalles avanzados" style="text-overflow: clip;">Fonoendoscopio</a></td>
+                <td>2021-10-12</td>
+                <td><i class="fas fa-check accept-button"></i></td>
+                <td><i class="fas fa-times refuse-button"></i></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>

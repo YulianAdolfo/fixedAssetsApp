@@ -34,11 +34,16 @@ header h2 {
     height: 90vh;
     margin: 0 auto;
     margin-top: 5px;
+    overflow-y: scroll;
 }
+
 .container-request-main table {
     border: 1px solid #ddd;
     border-collapse: collapse;
     width: 100%;
+}
+.container-request-main table tr:hover {
+    background-color: rgb(235, 235, 235);
 }
 .container-request-main th, tr td {
     border: 1px solid #ddd;

@@ -29,43 +29,30 @@
     <div class="background-panel-style" id="background-panel-style">
        <div class="information-container-request">
            <header>Nombre del dispositivo <i class="fas fa-arrow-right" id="back-button" title="Volver atrás"></i></header>
-           <div class="first-div">
-               <div><h3>Solicitante</h3><input type="text" name="requester-name" id="requester-name" disabled value="Yulian Adolfo Rojas Gañan"></div>
-               <div><h3>Fecha</h3><input type="text" name="date-request" id="date-request" disabled value="2021-10-10 00:00:00am"></div>
-           </div>
-           <div class="container-basic-data">
-               <div><h3>Activo:</h3><input type="text" name="txt-name-device" id="txt-name-device" disabled value="dflsadkjfdklsdjlfdfl"></div>
-               <div><h3>Marca:</h3><input type="text" name="txt-name-mark" id="txt-name-mark" disabled value="dflsadkjfdklsdjlfdfl"></div>
-               <div><h3>Modelo:</h3><input type="text" name="txt-name-model" id="txt-name-model" disabled value="dflsadkjfdklsdjlfdfl"></div>
-           </div>
-           <div class="container-basic-data">
-            <div><h3>Serie:</h3><input type="text" n    ame="txt-name-device" id="txt-name-serial" disabled value="dflsadkjfdklsdjlfdfl"></div>
-            <div><h3>Ubicación:</h3><input type="text" name="txt-name-location" id="txt-name-location" disabled value="dflsadkjfdklsdjlfdfl"></div>
-            <div><h3>Acsros:</h3><input type="text" name="txt-name-device" id="txt-name-accessories" disabled value="dflsadkjfdklsdjlfdfl"></div>
-        </div>
-        <div class="container-emition-data">
-            <h2>Emisión del activo</h2>
-            <div class="container-emition-info">
-                <div><input type="text" name="campus-e" id="campus-e" value="Sede central" disabled></div>
-                <div><input type="text" name="area-e" id="area-e" value="Consultorio 5" disabled></div>
-            </div>
-        </div>
-        <div class="container-reason">
-            <h2>Motivo del cambio</h2>
-            <input type="text" name="reason-txt" id="reason-txt" value="cambio de software" disabled>
-        </div>
-        <div class="container-emition-data">
-            <h2>Recepcion del activo</h2>
-            <div class="container-emition-info">
-                <div><input type="text" name="campus-r" id="campus-r" value="Sede especialistas" disabled></div>
-                <div><input type="text" name="area-r" id="area-r" value="Laboratorio" disabled></div>
-            </div>
-        </div>
-        <div class="description-reason">
-            <h2>Descripción u observaciones</h2>
-            <textarea name="" id="" cols="30" rows="10" disabled>adslasfdjaldf asjldfdflasjd falsdfl</textarea>
-        </div>
-       </div>
+            <div class="container-data-information">
+                <h3>Solicitante</h3><input type="text"><br>
+                <h3>Fecha</h3><input type="text"><br>
+                <h3>Reporte</h3><input type="text"><br>
+                <h2>Datos básicos</h2>
+                <h3>Activo</h3><input type="text"><br>
+                <h3>Marca</h3><input type="text"><br>
+                <h3>Modelo</h3><input type="text"><br>
+                <h3>Serie</h3><input type="text"><br>
+                <h3>Ubicación</h3><input type="text"><br>
+                <h3>Accesorios</h3><input type="text"><br>
+                <h2>Datos de emisión</h2>
+                <h3>Sede</h3><input type="text"><br>
+                <h3>Area</h3><input type="text"><br> 
+                <h2>Motivo de solicitud o cambio</h2>
+                <input type="text" class="width-all-input"><br>
+                <h2>Datos de recepción</h2>
+                <h3>Sede</h3><input type="text"><br>
+                <h3>Area</h3><input type="text"><br> 
+                <h2>Descripción u observaciones</h2>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+                <button><i class="fas fa-check btn"></i> Aceptar</button>
+                <button><i class="fas fa-times btn-x"></i>Rechazar</button>
+            </div>           
     </div>
     <script src="./dashboard.js"></script>
 </body>

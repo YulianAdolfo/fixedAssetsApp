@@ -17,6 +17,11 @@ function getIcon() {
 function getParagraph() {
     return document.createElement("p")
 }
+function getBackgroundPanel() {
+    var panel = document.createElement("div")
+    panel.classList.add("background-panel-style")
+    return panel
+}
 function setContentTable(amountRequest) {
     var table = getTable()
     for(var i =0; i < amountRequest; i++)  {
@@ -52,6 +57,22 @@ function setContentTable(amountRequest) {
             table.appendChild(lineHorizontalTable)
         }
     }
-
 }
-setContentTable(30)
+function openDetails(nameDevice = "nombre el dispositivo") {
+    var mainPanelInformation = document.body.appendChild(getBackgroundPanel())
+    var panelInformation = document.createElement("div")
+    var panelInformatioHeader = document.createElement("header")
+    panelInformation.classList.add("information-container-request")
+    panelInformatioHeader.innerHTML = nameDevice
+    panelInformation.appendChild(panelInformatioHeader)
+    mainPanelInformation.appendChild(panelInformation)
+}
+var backButton = ()=> {
+    var button = document.getElementById("back-button")
+    button.onclick = () => {
+        document.getElementById("background-panel-style").style.display = "none"
+    }
+}
+//setContentTable(30)
+//openDetails()
+backButton()

@@ -153,7 +153,7 @@ buttonSendRegistry.addEventListener("click", (e) => {
     }
     function RegistryData(data) {
         return new Promise((resolved, rejected) => {
-            fetch("http://192.168.1.18:5200/registry", {
+            fetch("http://172.16.0.59:5200/registry", {
                 method: "POST",
                 header: {
                     "content-type": "application/json"

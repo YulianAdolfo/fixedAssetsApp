@@ -12,10 +12,13 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
-        <div class="menu-bar"><i class="fas fa-bars"></i></div>
+    <header class="main-header">
+        <div class="menu-bar" id="menu-bar"><i class="fas fa-bars"></i></div>
         <div class="title-app"><h2>Dashboard de solicitudes</h2></div>
     </header>
+    <section class="section-search">
+        <p>Solicitudes en los últimos 5 días</p>  
+    </section>
     <div class="container-request-main" id="container-request-main">
         <table>
             <tr>
@@ -50,8 +53,8 @@
                 <h3>Area</h3><input type="text"><br> 
                 <h2>Descripción u observaciones</h2>
                 <textarea name="" id="" cols="30" rows="10"></textarea>
-                <button><i class="fas fa-check btn"></i> Aceptar</button>
-                <button><i class="fas fa-times btn-x"></i>Rechazar</button>
+                <button id="btn-acc"><i class="fas fa-check btn"></i> Aceptar</button>
+                <button id="btn-rjt"><i class="fas fa-times btn-x"></i>Rechazar</button>
             </div>           
     </div>
     <script src="./dashboard.js"></script>

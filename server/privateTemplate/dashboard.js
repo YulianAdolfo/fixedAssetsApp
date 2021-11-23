@@ -24,6 +24,22 @@ function getIcon() {
 function getParagraph() {
     return document.createElement("p")
 }
+function getMainForm() {
+    var form = document.createElement("div")
+    form.classList.add("form-sub-menu")
+    return form
+}
+function getInputBox() {
+    var input = document.createElement("input")
+    input.type = "text"
+    return input
+}
+function getButton() {
+    return document.createElement("button")
+}
+function getTitleHeader() {
+    return document.getElementById("title-header")
+}
 function getBackgroundPanel() {
     var confirmationPanel = document.createElement("div")
     confirmationPanel.style.width = "100%"
@@ -178,6 +194,7 @@ function menuWin() {
 
     var submenu1 = getUl()
     var submenu2 = getUl()
+    optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-home'></i>" + "Inicio"
     optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-user'></i>" + "Usuarios" + "<i class='fas fa-plus'></i>"
     optionList.appendChild(submenu1)
     submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-plus'></i>" + "Crear nuevo usuario"
@@ -195,9 +212,8 @@ function menuWin() {
     menu.appendChild(menuSide)
     document.body.appendChild(menu)
 
-    optionList.children[0].onclick = (e) => setActionList(e.target, optionList.children[1])
-    optionList.children[3].onclick = (e) => setActionList(e.target, optionList.children[4])
-
+    optionList.children[1].onclick = (e) => setActionList(e.target, optionList.children[2]) // users
+    optionList.children[4].onclick = (e) => setActionList(e.target, optionList.children[5]) // credentials
     function setActionList(element, submenuList) {
         var subMenu = submenuList
         if (subMenu.style.display == "" || subMenu.style.display == "none") {
@@ -213,7 +229,7 @@ function menuWin() {
     options.children[0].onclick = () => closeMenu()
     menu.onclick = (e) => {
         if(e.target.id == "container-menu-app") {
-            closeMenu()
+            closeMenu( )
         }
     }
     function closeMenu() {
@@ -222,9 +238,149 @@ function menuWin() {
     }
 
 }
+function backgroundSubmenuSection() {
+    var panel = getBackgroundPanel()
+    panel.style.top = "50px"
+    panel.style.backgroundColor = "white"
+    return panel
+
+    
+}
+function createNewForm() {
+    var panel = backgroundSubmenuSection()
+    var form = getMainForm()
+    var user = getInputBox()
+    var email = getInputBox()
+    var password = getInputBox()
+    var button = getButton()
+
+    form.appendChild(user)
+    form.appendChild(email)
+    form.appendChild(password)
+    form.appendChild(button)
+    panel.appendChild(form)
+
+    document.body.appendChild(panel)
+
+    return panel
+}
+function newAdminUser() {
+    let containerForm = createNewForm()
+    let form = containerForm.children[0]
+    let username = form.children[0]
+    let email = form.children[1]
+    let password = form.children[2]
+    let button = form.children[3]
+
+    username.placeholder = "Ingrese nombre de usuario"
+    email.placeholder = "Ingrese correo electrónico @gmail.com"
+    password.placeholder = "Ingrese la contraseña (temporal)"
+    password.type = "password"
+    button.innerHTML = "Registrar"
+    getTitleHeader().innerHTML = "Nuevo usuario Admin"
+
+}
+function changePassword() {
+    let containerForm = createNewForm()
+    let form = containerForm.children[0]
+    let actualPassword = form.children[0]
+    let newPassword = form.children[1]
+    let confirmPassword = form.children[2]
+    let button = form.children[3]
+
+    actualPassword.placeholder = "Ingrese contraseña actual"
+    newPassword.placeholder = "Ingrese la nueva contraseña"
+    confirmPassword.placeholder = "Confirme la nueva contraseña"
+    actualPassword.type = "password"
+    newPassword.type = "password"
+    confirmPassword.type = "password"
+    button.innerHTML = "Cambiar"
+    getTitleHeader().innerHTML = "Cambio de credenciales"
+
+}
+function changeIDauthorized() {
+    let containerForm = createNewForm()
+    let form = containerForm.children[0]
+    let actualID = form.children[0]
+    let newID = form.children[1]
+    let confirmId = form.children[2]
+    let button = form.children[3]
+
+    actualID.placeholder = "Ingrese ID actual"
+    newID.placeholder = "Ingrese la nuevo ID"
+    confirmId.placeholder = "Confirme el nuevo ID"
+    confirmId.type = "text"
+    button.innerHTML = "Cambiar ID"
+    getTitleHeader().innerHTML = "Cambio ID registro"
+
+}
+function blockUnblockDeleteUsers() {
+    let containerForm = createNewForm()
+    let form = containerForm.children[0]
+    form.style.height = "85%"
+    form.style.position = "absolute"
+    form.style.left = "50%"
+    form.style.top = "0"
+    form.style.transform = "translate(-50%, 0%)"
+    form.style.display = "block"
+    form.style.margin = "0 auto"
+    form.style.marginTop = "10px"
+    form.style.padding = "0"
+    form.classList.add("form-search-block-unblock-delete")
+    while(form.firstChild) {
+        form.removeChild(form.lastElementChild)
+    }
+
+    var nav = document.createElement("nav")
+    var boxSearch = getInputBox()
+    var buttonSearch = getButton()
+    boxSearch.placeholder = "Ingrese nombre usuario o correo electrónico"
+    buttonSearch.innerHTML = "<i class='fas fa-search'></i>"
+    nav.appendChild(boxSearch)
+    nav.appendChild(buttonSearch)
+
+    // table
+    var table = document.createElement("table")
+    var tr = getTableTr()
+    tr.appendChild(document.createElement("th")).innerHTML = "Nombre"
+    tr.appendChild(document.createElement("th")).innerHTML = "Tipo"
+    tr.appendChild(document.createElement("th")).innerHTML = "Acción"
+    table.appendChild(tr)
+    form.appendChild(nav)
+    form.appendChild(table)
+
+    // creating content
+
+    for(var i =0; i  < 1; i++) {
+        var tr = getTableTr()
+        for(var j =0; j < 3; j++) {
+            var td = getTableTd()
+            switch(j) {
+                case 0:
+                    td.innerHTML = "nombre de usuario"
+                    break;
+                case 1:
+                    td.innerHTML = "Usuario"
+                    break;
+                case 2:
+                    var select = document.createElement("select")
+                    var opt = document.createElement("option")
+                    opt.innerHTML = "Seleccione"
+                    select.appendChild(opt)
+                    td.appendChild(select)
+                    break;
+            }
+            tr.appendChild(td)
+        }
+        table.appendChild(tr)
+    }
+    
+}
 function removeLastChild() {
     document.body.removeChild(document.body.lastElementChild)
 }
+//blockUnblockDeleteUsers()
 backButton()
 //menuWin()
 setContentTable(5)
+//createNewAdminUser()

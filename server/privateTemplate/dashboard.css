@@ -239,7 +239,6 @@ header h2 {
         margin: 0;
         font-size: 20px;
     }
-    
 }
 @media screen and (max-width:730px){
     .information-container-request {
@@ -396,4 +395,163 @@ header h2 {
 .close-menu-app {
     transform: translateX(-100%);
     transition: .5s;
+}
+/* form submenu click */
+.form-sub-menu {
+    width: 400px;
+    height: 180px;
+    background-color: #ddd;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-40%, -50%);
+    border-radius: 10px;
+    padding-top: 10px;
+}
+.form-sub-menu input {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    margin-top: 5px;
+    outline: none;
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+}
+.form-sub-menu button {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    margin-top: 20px;
+    border: none;
+    border: 10px;
+    background-color: rgb(30, 219, 5);
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+}
+.form-sub-menu nav {
+    width: 100%;
+    background-color: #00adef;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-sizing: border-box;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.form-sub-menu nav input {
+    width: 85%;
+    box-sizing: border-box;
+    margin: 0;
+    height: 30px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 0;
+    display: inline-block;
+}
+.form-sub-menu nav button {
+    width: 100px;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0;
+    margin-left: 10px;
+    outline: none;
+}
+.form-sub-menu table {
+    width: 99.5%;
+    border: 1px solid white;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 15px;
+}
+.form-sub-menu table th {
+    border: 1px solid white;
+    background-color: rgb(30, 219, 5);
+    color: white;
+    border-collapse: collapse;
+}
+.form-sub-menu tr td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: white;
+}
+.form-sub-menu table tr select {
+    background-color:white;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 2px;
+    cursor: pointer;
+    text-align: center;
+}
+.form-search-block-unblock-delete {
+    width: 900px;
+}
+@media screen  and (max-width:910px){
+    .form-search-block-unblock-delete {
+        width: 98%;
+    }
+    
+}
+@media screen and (max-width:817px){
+    .form-sub-menu nav input {
+        width: 80%;
+        box-sizing: border-box;
+        margin: 0;
+        height: 30px;
+        margin-left: 10px;
+        text-align: center;
+        border-radius: 0;
+        display: inline-block;
+    }
+}
+@media screen and (max-width:800px){
+    .form-sub-menu {
+        width: 80%;
+        left: 42%;
+    }
+    .form-search-block-unblock-delete {
+        width: 98%;
+    }
+}
+@media screen and (max-width:612px){
+    .form-sub-menu {
+        width: 80%;
+        left: 42%;
+    }
+    .form-search-block-unblock-delete {
+        width: 98%;
+    }
+    .form-sub-menu nav input {
+        width: 75%;
+    }
+}
+@media screen and (max-width:500px){
+    .form-sub-menu {
+        width: 98%;
+        height: 180px;
+        background-color: #ddd;
+        position: relative;
+        left: 0%;
+        top: 25%;
+        transform: translate(0%, 0%);
+        border-radius: 10px;
+        padding-top: 10px;
+        display: block;
+        margin: 0 auto;
+    }
+    .form-sub-menu nav input {
+        width: 70%;
+    }
+}
+@media screen and (max-width:408px){
+    .form-sub-menu nav input {
+        width: 70%;
+    }
+    .form-sub-menu nav button {
+        width: 20%;
+    }   
 }

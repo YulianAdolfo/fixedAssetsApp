@@ -197,9 +197,8 @@ function menuWin() {
     optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-home'></i>" + "Inicio"
     optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-user'></i>" + "Usuarios" + "<i class='fas fa-plus'></i>"
     optionList.appendChild(submenu1)
-    submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-plus'></i>" + "Crear nuevo usuario"
-    submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-slash'></i>" + "Activar/Inactivar usuarios"
-    submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-minus'></i>" + "Eliminar usuarios"
+    submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-plus' id='create-user'></i>" + "Crear nuevo usuario"
+    submenu1.appendChild(getLi()).innerHTML = "<i class='fas fa-user-slash'></i>" + "Editar usuarios"
     optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-file-excel'></i>" + "Generar reportes"
     optionList.appendChild(getLi()).innerHTML = "<i class='fas fa-key'></i>" + "Credenciales" + "<i class='fas fa-plus'></i>"
     optionList.appendChild(submenu2)
@@ -212,8 +211,36 @@ function menuWin() {
     menu.appendChild(menuSide)
     document.body.appendChild(menu)
 
-    optionList.children[1].onclick = (e) => setActionList(e.target, optionList.children[2]) // users
-    optionList.children[4].onclick = (e) => setActionList(e.target, optionList.children[5]) // credentials
+    var indexMenuUser = 2
+    var indexMenuCredentials = 5
+    optionList.children[1].onclick = (e) => setActionList(e.target, optionList.children[indexMenuUser]) // users
+    optionList.children[4].onclick = (e) => setActionList(e.target, optionList.children[indexMenuCredentials]) // credentials
+    // click on submenu
+    optionList.children[0].onclick = () => {
+        closeMenu()
+        setTimeout(() => {location.reload()}, 100);
+    }
+    // show form to creation of new admin user
+    optionList.children[indexMenuUser].children[0].onclick = () => {
+        closeMenu()
+        setTimeout(() => {removeLastChild(), newAdminUser()}, 100);
+    }
+    // show form to block, unblock or delete users
+    optionList.children[indexMenuUser].children[1].onclick = () => {
+        closeMenu()
+        setTimeout(() => {removeLastChild(), blockUnblockDeleteUsers()}, 100);
+    }
+    // show form to change the password
+    optionList.children[indexMenuCredentials].children[0].onclick = () => {
+        closeMenu()
+        setTimeout(() => {removeLastChild(), changePassword()}, 100);
+    }
+    // show form to change the ID authorized
+    optionList.children[indexMenuCredentials].children[1].onclick = () => {
+        closeMenu()
+        setTimeout(() => {removeLastChild(), changeIDauthorized()}, 100);
+    }
+    // hide or show the menu left
     function setActionList(element, submenuList) {
         var subMenu = submenuList
         if (subMenu.style.display == "" || subMenu.style.display == "none") {
@@ -226,12 +253,16 @@ function menuWin() {
             element.style.backgroundColor = "transparent"
         }
     }
+    // if the user clicks on the arrow left located on top of menu, then the menu will close
     options.children[0].onclick = () => closeMenu()
+
+    // if the user clicks on the panel rgba, then the menu will close
     menu.onclick = (e) => {
         if(e.target.id == "container-menu-app") {
             closeMenu( )
         }
     }
+    // it makes the animation of slide
     function closeMenu() {
         menuSide.classList.add("close-menu-app")
         setTimeout(() => {removeLastChild()}, 100);
@@ -380,7 +411,7 @@ function removeLastChild() {
     document.body.removeChild(document.body.lastElementChild)
 }
 //blockUnblockDeleteUsers()
-backButton()
+//backButton()
 //menuWin()
 setContentTable(5)
 //createNewAdminUser()

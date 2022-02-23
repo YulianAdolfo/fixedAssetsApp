@@ -40,10 +40,9 @@ type dataNewRequest struct {
 	Description string
 }
 type newRegistryUserData struct {
-	Name         string
-	Email        string
-	Password     string
-	IDAuthorized string
+	USER     string
+	USERNAME string
+	PASSWORD string
 }
 type dataForLogin struct {
 	User     string
@@ -257,38 +256,36 @@ func newReigstryUser(r *http.Request) string {
 	if err != nil {
 		fmt.Println("Error " + err.Error())
 	}
-	if getAuthorizedUser() == dataBody.IDAuthorized {
-		// connecting to database
-		databaseConnection := connectToData()
-		query := "INSERT INTO fa_users (NAME, PASSWORD, EMAIL) VALUES (?,?,?)"
-		contextQuery, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		defer cancel()
-		// preparing the query
-		preparingQuery, err := databaseConnection.PrepareContext(contextQuery, query)
-		if err != nil {
-			fmt.Println("Error preparing the query: " + err.Error())
-		}
-		resultQuery, err := preparingQuery.ExecContext(contextQuery, dataBody.Name, dataBody.Password, dataBody.Email)
-		if err != nil {
-			fmt.Println("Error excecuting the query: " + err.Error())
-		}
-		if ID, err := resultQuery.LastInsertId(); err != nil {
-			fmt.Println("Error getting the last ID: " + err.Error())
-		} else {
-			// encrypting the password using AES_ENCRYPTION
-			query = "UPDATE fa_users SET PASSWORD = AES_ENCRYPT(?,?)"
-			preparingQuery, err = databaseConnection.Prepare(query)
-			if err != nil {
-				fmt.Println("Error preparing the query: " + err.Error())
-			}
-			preparingQuery.Exec(dataBody.Password, ID)
-		}
-		defer preparingQuery.Close()
-		defer databaseConnection.Close()
-		return successProcess()
-	} else {
-		return failProcess()
-	}
+	fmt.Println(string(bodyRequest))
+	// connecting to database
+	/* 	databaseConnection := connectToData()
+	   	query := "INSERT INTO table_users (USER, USERNAME, PASSWORD) VALUES (?,?,?)"
+	   	contextQuery, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	   	defer cancel()
+	   	// preparing the query
+	   	preparingQuery, err := databaseConnection.PrepareContext(contextQuery, query)
+	   	if err != nil {
+	   		fmt.Println("Error preparing the query: " + err.Error())
+	   	}
+	   	resultQuery, err := preparingQuery.ExecContext(contextQuery, dataBody.USER, dataBody.USERNAME, dataBody.PASSWORD)
+	   	if err != nil {
+	   		fmt.Println("Error excecuting the query: " + err.Error())
+	   	}
+	   	if ID, err := resultQuery.LastInsertId(); err != nil {
+	   		fmt.Println("Error getting the last ID: " + err.Error())
+	   	} else {
+	   		// encrypting the password using AES_ENCRYPTION
+	   		query = "UPDATE table_users SET PASSWORD = AES_ENCRYPT(?,?)"
+	   		preparingQuery, err = databaseConnection.Prepare(query)
+	   		if err != nil {
+	   			fmt.Println("Error preparing the query: " + err.Error())
+	   		}
+	   		preparingQuery.Exec(dataBody.PASSWORD, ID)
+	   	}
+	   	defer preparingQuery.Close()
+	   	defer databaseConnection.Close()
+	   	return successProcess() */
+	return ""
 }
 func loginUser(r *http.Request) int {
 	r.ParseForm()
@@ -392,18 +389,18 @@ func accountUser(w http.ResponseWriter, r *http.Request) {
 	// getting the user if the user has login with gmail
 	if strings.Contains(selectUserName, "@gmail.com") {
 		databaseConnection := connectToData()
-		query, err := databaseConnection.Query("SELECT NAME FROM fa_users WHERE EMAIL=" + "'" + selectUserName + "'")
+		query, err := databaseConnection.Query("SELECT NAME FROM table_users WHERE EMAIL=" + "'" + selectUserName + "'")
 		if err != nil {
 			fmt.Println("Error in query getting username by email: " + err.Error())
 		}
 		var userName newRegistryUserData
 		for query.Next() {
-			err = query.Scan(&userName.Name)
+			err = query.Scan(&userName.USER)
 			if err != nil {
 				fmt.Println("Error scanning the name by email: " + err.Error())
 			}
 		}
-		selectUserName = userName.Name
+		selectUserName = userName.USER
 		defer query.Close()
 		defer databaseConnection.Close()
 	}
@@ -492,7 +489,6 @@ func main() {
 	http.HandleFunc("/account", accessingToAccount)
 	http.HandleFunc("/login-user", accessToLogin)
 	http.HandleFunc("/login-out", logOutAccount)
-	http.HandleFunc("/registry-user-form", registryForm)
 	http.HandleFunc("/verify-user-email", checkEmail)
 	http.HandleFunc("/verify-user-user-name", checkUserName)
 	http.HandleFunc("/4dw1n15Tr4T0r", loginAdmin)

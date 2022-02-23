@@ -23,18 +23,6 @@ function verifyBasicData(box, url) {
     })
 }
 
-checkNotEmail.onchange = () => {
-    if (checkNotEmail.checked) {
-        boxMail.disabled = true
-        boxMail.style.backgroundColor = "#ddd"
-        boxMail.value = ""
-        alert("Sin un correo electrónico válido NO podrás recuperar tu cuenta si olvidas tu contraseña y tendrás que memorizar tu nombre de usuario para poder acceder al aplicativo")
-    } else {
-        boxMail.disabled = false
-        boxMail.style.backgroundColor = "white"
-    }
-}
-
 buttonSendRegistry.addEventListener("click", (e) => {
     e.preventDefault()
     if (boxUser.value != "" && authorizedID.value != "" && password.value != "" && rePassword.value != "") {
@@ -153,7 +141,7 @@ buttonSendRegistry.addEventListener("click", (e) => {
     }
     function RegistryData(data) {
         return new Promise((resolved, rejected) => {
-            fetch("http://172.16.0.59:5200/registry", {
+            fetch("http://172.16.1.23:5200/registry", {
                 method: "POST",
                 header: {
                     "content-type": "application/json"
@@ -257,4 +245,7 @@ function scrollingToTop() {
 }
 function removeLastElementApp() {
     document.body.removeChild(document.body.lastChild)
+}
+boxMail.onchange = () => {
+    console.log(boxMail.value)
 }
